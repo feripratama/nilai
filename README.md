@@ -23,3 +23,5 @@ git clone
 ~~~
 $ git clone https://github.com/bantenprov/nilai.git
 ~~~
+
+## Edit config/App.php
