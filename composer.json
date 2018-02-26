@@ -1,24 +1,31 @@
 {
     "name": "bantenprov/nilai",
     "description": "Nilai",
+    "type": "library",
+    "homepage": "https://github.com/bantenprov/nilai",
     "authors": [
         {
             "name": "bantenprov",
-            "email": "developer.bantenprov@gmail.com"
+            "email": "developer.bantenprov@gmail.com",
+            "role": "developer"
         }
     ],
     "license": "MIT",
     "support": {
-      "source": "https://github.com/bantenprov/nilai,",
-      "issues": "https://github.com/bantenprov/nilai/issues",
-      "wiki": "https://github.com/bantenprov/nilai/wiki"
+        "source": "https://github.com/bantenprov/nilai,",
+        "issues": "https://github.com/bantenprov/nilai/issues",
+        "wiki": "https://github.com/bantenprov/nilai/wiki"
     },
     "require": {
         "php": ">=5.6.4",
         "laravel/framework": "5.4.*",
-        "laravel/tinker": "~1.0"
+        "laravel/tinker": "~1.0",
+        "bantenprov/tanara": "dev-master"
     },
     "autoload": {
+        "files": [
+            "src/helpers/helpers.php"
+        ],
         "psr-4": {
             "Bantenprov\\Nilai\\": "src"
         }
