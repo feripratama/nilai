@@ -1,6 +1,7 @@
 {
     "name": "bantenprov/nilai",
     "description": "Nilai",
+    "domain": "https://packagist.org",
     "type": "library",
     "homepage": "https://github.com/bantenprov/nilai",
     "authors": [
