@@ -11,3 +11,15 @@
 [![Daily Downloads](https://poser.pugx.org/bantenprov/nilai/d/daily)](https://packagist.org/packages/bantenprov/nilai)
 
 Nilai
+
+## Install
+using composer
+~~~
+$ composer require bantenprov/nilai:"dev-master"
+~~~
+
+## Download
+git clone
+~~~
+$ git clone https://github.com/bantenprov/nilai.git
+~~~
