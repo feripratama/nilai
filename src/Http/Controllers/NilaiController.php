@@ -59,11 +59,7 @@ class NilaiController extends Controller
         }
 
         $perPage = request()->has('per_page') ? (int) request()->per_page : null;
-        $response = $query->paginate($perPage);
-        
-        foreach($response as $siswa){            
-            array_set($response->data, 'siswa_id', $siswa->siswa->label);           
-        }
+        $response = $query->with('siswa')->paginate($perPage);              
         
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
