@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Rasio Grup Kesenian
+      <i class="fa fa-table" aria-hidden="true"></i> Nilai
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -92,21 +92,45 @@ export default {
           dataClass: 'right aligned'
         },
         {
-          name: 'label',
-          title: 'Label',
-          sortField: 'label',
+          name: 'nomor_un',
+          title: 'Nomor UN',
+          sortField: 'nomor_un',
           titleClass: 'center aligned'
         },
         {
-          name: 'siswa.label',
+          name: 'siswa.nama_siswa',
           title: 'Siswa',
           sortField: 'siswa_id',
           titleClass: 'center aligned'
         },
         {
-          name: 'description',
-          title: 'Description',
-          sortField: 'description',
+          name: 'akademik_id',
+          title: 'Akademik',
+          sortField: 'akademik_id',
+          titleClass: 'center aligned'
+        },
+        {
+          name: 'prestasi.nama_lomba',
+          title: 'Siswa',
+          sortField: 'prestasi_id',
+          titleClass: 'center aligned'
+        },
+        {
+          name: 'zona_id',
+          title: 'Zona',
+          sortField: 'zona_id',
+          titleClass: 'center aligned'
+        },
+        {
+          name: 'sktm.no_sktm',
+          title: 'Sktm',
+          sortField: 'sktm_id',
+          titleClass: 'center aligned'
+        },
+        {
+          name: 'user.name',
+          title: 'Username',
+          sortField: 'user_id',
           titleClass: 'center aligned'
         },
         {
@@ -117,7 +141,7 @@ export default {
         },
       ],
       sortOrder: [{
-        field: 'label',
+        field: 'id',
         direction: 'asc'
       }],
       moreParams: {},

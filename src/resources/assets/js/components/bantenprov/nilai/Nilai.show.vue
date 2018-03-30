@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Show nilai {{ model.label }}
+      <i class="fa fa-table" aria-hidden="true"></i> Nilai
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -14,22 +14,56 @@
 
     <div class="card-body">
       <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
+
         <div class="form-row">
           <div class="col-md">
-            <b>Label :</b> {{ model.label }}
+            <b>Nomor UN :</b> {{ model.siswa.nomor_un }}
           </div>
         </div>
 
         <div class="form-row mt-4">
           <div class="col-md">
-            <b>Description :</b> {{ model.description }}
+            <b>Siswa :</b> {{ model.siswa.nama_siswa }}
           </div>
         </div>
 
-        
-        
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <b>Akademik :</b> {{ model.akademik_id }}
+          </div>
+        </div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <b>Prestasi :</b> {{ model.prestasi.nama_lomba }}
+          </div>
+        </div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <b>Zona :</b> {{ model.zona_id }}
+          </div>
+        </div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <b>STKM :</b> {{ model.sktm.no_sktm }}
+          </div>
+        </div>
+
       </vue-form>
     </div>
+       <div class="card-footer text-muted">
+        <div class="row">
+          <div class="col-md">
+            <b>Username :</b> {{ model.user.name }}
+          </div>
+          <div class="col-md">
+            <div class="col-md text-right">Dibuat : {{ model.created_at }}</div>
+            <div class="col-md text-right">Diperbaiki : {{ model.updated_at }}</div>
+          </div>
+        </div>
+      </div>
   </div>
 </template>
 
@@ -39,10 +73,13 @@ export default {
     axios.get('api/nilai/' + this.$route.params.id)
       .then(response => {
         if (response.data.status == true) {
-          this.model.label = response.data.nilai.label;
-          this.model.old_label = response.data.nilai.label;
-          this.model.description = response.data.nilai.description;
+          this.model.nomor_un = response.data.nilai.nomor_un;
           this.model.siswa = response.data.siswa;
+          this.model.akademik_id = response.data.nilai.akademik_id;
+          this.model.prestasi = response.data.prestasi;
+          this.model.zona_id = response.data.nilai.zona_id;
+          this.model.sktm = response.data.sktm;
+          this.model.user = response.data.nilai.user;          
         } else {
           alert('Failed');
         }
@@ -66,11 +103,18 @@ export default {
     return {
       state: {},
       model: {
-        label: "",
-        description: "",
+      nomor_un: "",
         siswa: "",
+        akademik_id: "",
+        prestasi: "",
+        zona_id: "",
+        sktm: "",
+        user: ""
       },
-      siswa: []
+      siswa: [],
+      user: [],
+      prestasi: [],
+      sktm: []
     }
   },
   methods: {
