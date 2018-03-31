@@ -55,7 +55,7 @@ class BantenprovNilaiSeeder extends Seeder
 
             $this->model->create([
                 'user_id' => $data['user_id'],
-                'nomor_un' => $data['nomor_un'],
+                'siswa_id' => $data['siswa_id'],
                 'akademik_id' => $data['akademik_id'],
                 'prestasi_id' => $data['prestasi_id'],
                 'zona_id' => $data['zona_id'],
@@ -66,7 +66,7 @@ class BantenprovNilaiSeeder extends Seeder
                 echo "============[DATA]============\n";
                 $this->orangeText('user_id : ').$this->greenText($data['user_id']);
                 echo"\n";
-                $this->orangeText('nomor_un : ').$this->greenText($data['nomor_un']);
+                $this->orangeText('siswa_id : ').$this->greenText($data['siswa_id']);
                 echo"\n";
                 $this->orangeText('akademik_id : ').$this->greenText($data['akademik_id']);
                 echo"\n";
@@ -106,7 +106,7 @@ class BantenprovNilaiSeeder extends Seeder
         $row = 1;
         while(($data = fgetcsv($file, 1000, ",")) !== FALSE){            
             $all_data[] = ['user_id' => $data[0], 
-                           'nomor_un' => $data[1],
+                           'siswa_id' => $data[1],
                            'akademik_id' => $data[2],
                            'prestasi_id' => $data[3],
                            'zona_id' => $data[4],
