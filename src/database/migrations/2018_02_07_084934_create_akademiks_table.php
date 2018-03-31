@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateNilaisTable extends Migration
+class CreateAkademiksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,14 +12,13 @@ class CreateNilaisTable extends Migration
      */
 	public function up()
 	{
-		Schema::create('nilais', function(Blueprint $table) {
+		Schema::create('akademiks', function(Blueprint $table) {
 			$table->increments('id');
 			$table->integer('user_id');
-			$table->bigInteger('siswa_id');
-			$table->integer('akademik_id');
-			$table->integer('prestasi_id');
-			$table->string('zona_id');
-			$table->integer('sktm_id');
+			$table->bigInteger('nomor_un');
+			$table->integer('bahasa_indonesia');
+			$table->integer('bahasa_inggris');
+			$table->integer('matematika');
 			$table->timestamps();
 			$table->softDeletes();
 		});
@@ -32,6 +31,6 @@ class CreateNilaisTable extends Migration
      */
 	public function down()
 	{
-		Schema::drop('nilais');
+		Schema::drop('akademiks');
 	}
 }
