@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Bantenprov\Nilai\Facades\NilaiFacade;
 
 /* Models */
-use Bantenprov\Nilai\Models\Bantenprov\Nilai\Nilai;
+use Bantenprov\Nilai\Models\Bantenprov\Nilai\Akademik;
 use Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa;
 use App\User;
 
@@ -16,25 +16,25 @@ use App\User;
 use Validator;
 
 /**
- * The NilaiController class.
+ * The AkademikController class.
  *
- * @package Bantenprov\Nilai
+ * @package Bantenprov\Akademik
  * @author  bantenprov <developer.bantenprov@gmail.com>
  */
-class NilaiController extends Controller
+class AkademikController extends Controller
 {
     /**
      * Create a new controller instance.
      *
      * @return void
      */
+    protected $akademik;
     protected $siswa;
-    protected $nilai;
     protected $user;
 
-    public function __construct(Nilai $nilai, Siswa $siswa, User $user)
+    public function __construct(Akademik $akademik, Siswa $siswa, User $user)
     {
-        $this->nilai = $nilai;
+        $this->akademik = $akademik;
         $this->siswa = $siswa;
         $this->user = $user;
     }
@@ -49,9 +49,9 @@ class NilaiController extends Controller
         if (request()->has('sort')) {
             list($sortCol, $sortDir) = explode('|', request()->sort);
 
-            $query = $this->nilai->orderBy($sortCol, $sortDir);
+            $query = $this->akademik->orderBy($sortCol, $sortDir);
         } else {
-            $query = $this->nilai->orderBy('id', 'asc');
+            $query = $this->akademik->orderBy('id', 'asc');
         }
 
         if ($request->exists('filter')) {
@@ -77,8 +77,8 @@ class NilaiController extends Controller
      */
     public function create()
     {        
-        $siswas = $this->siswa->all();
         $users = $this->user->all();
+        $siswas = $this->siswa->all();
 
         foreach($users as $user){
             array_set($user, 'label', $user->name);
@@ -88,8 +88,8 @@ class NilaiController extends Controller
             array_set($siswa, 'label', $siswa->nama_siswa);
         }
         
-        $response['siswa'] = $siswas;
         $response['user'] = $users;
+        $response['siswa'] = $siswas;
         $response['status'] = true;
 
         return response()->json($response);
@@ -103,41 +103,42 @@ class NilaiController extends Controller
      */
     public function store(Request $request)
     {
-        $nilai = $this->nilai;
+        $akademik = $this->akademik;
 
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|unique:nilais,user_id',
-            'siswa_id' => 'required|unique:nilais,siswa_id',
-            'akademik' => 'required',
-            'prestasi' => 'required',
-            'zona' => 'required',
-            'sktm' => 'required'
+            'user_id' => 'required|unique:akademiks,user_id',
+            'siswa_id' => 'required|unique:akademiks,siswa_id',
+            'bahasa_indonesia' => 'required',
+            'bahasa_inggris' => 'required',
+            'matematika' => 'required',
+            'ipa' => 'required'
         ]);
 
         if($validator->fails()){
-            $check = $nilai->where('user_id',$request->user_id)->orWhere('siswa_id',$request->siswa_id)->whereNull('deleted_at')->count();
+            $check = $akademik->where('user_id',$request->user_id)->orWhere('siswa_id',$request->siswa_id)->whereNull('deleted_at')->count();
 
             if ($check > 0) {
                 $response['message'] = 'Failed ! Username, Nama Siswa, already exists';
             } else {
-                $nilai->user_id = $request->input('user_id');
-                $nilai->siswa_id = $request->input('siswa_id');
-                $nilai->akademik = $request->input('akademik');
-                $nilai->prestasi = $request->input('prestasi');
-                $nilai->zona = $request->input('zona');
-                $nilai->sktm = $request->input('sktm');
-                $nilai->save();
+                $akademik->user_id = $request->input('user_id');
+                $akademik->bahasa_indonesia = $request->input('bahasa_indonesia');
+                $akademik->siswa_id = $request->input('siswa_id');
+                $akademik->bahasa_inggris = $request->input('bahasa_inggris');
+                $akademik->matematika = $request->input('matematika');
+                $akademik->ipa = $request->input('ipa');
+                $akademik->save();
 
                 $response['message'] = 'success';
             }
         } else {
-                $nilai->user_id = $request->input('user_id');
-                $nilai->siswa_id = $request->input('siswa_id');
-                $nilai->akademik = $request->input('akademik');
-                $nilai->prestasi = $request->input('prestasi');
-                $nilai->zona = $request->input('zona');
-                $nilai->sktm = $request->input('sktm');
-                $nilai->save();
+            $akademik->user_id = $request->input('user_id');
+                $akademik->user_id = $request->input('user_id');
+                $akademik->bahasa_indonesia = $request->input('bahasa_indonesia');
+                $akademik->siswa_id = $request->input('siswa_id');
+                $akademik->bahasa_inggris = $request->input('bahasa_inggris');
+                $akademik->matematika = $request->input('matematika');
+                $akademik->ipa = $request->input('ipa');
+                $akademik->save();
 
             $response['message'] = 'success';
         }
@@ -155,11 +156,11 @@ class NilaiController extends Controller
      */
     public function show($id)
     {
-        $nilai = $this->nilai->findOrFail($id);
+        $akademik = $this->akademik->findOrFail($id);
 
-        $response['user'] = $nilai->user;
-        $response['nilai'] = $nilai;
-        $response['siswa'] = $nilai->siswa;
+        $response['user'] = $akademik->user;
+        $response['akademik'] = $akademik;
+        $response['siswa'] = $akademik->siswa;
         $response['status'] = true;
 
         return response()->json($response);
@@ -173,14 +174,14 @@ class NilaiController extends Controller
      */
     public function edit($id)
     {
-        $nilai = $this->nilai->findOrFail($id);
+        $akademik = $this->akademik->findOrFail($id);
 
-        array_set($nilai->user, 'label', $nilai->user->name);
-        array_set($nilai->siswa, 'label', $nilai->siswa->nama_siswa);
+        array_set($akademik->user, 'label', $akademik->user->name);
+        array_set($akademik->siswa, 'label', $akademik->siswa->nama_siswa);
 
-        $response['nilai'] = $nilai;
-        $response['siswa'] = $nilai->siswa;
-        $response['user'] = $nilai->user;
+        $response['akademik'] = $akademik;
+        $response['siswa'] = $akademik->siswa;
+        $response['user'] = $akademik->user;
         $response['status'] = true;
 
         return response()->json($response);
@@ -198,15 +199,15 @@ class NilaiController extends Controller
         $response = array();
         $message  = array();
 
-        $nilai = $this->nilai->findOrFail($id);
+        $akademik = $this->akademik->findOrFail($id);
 
             $validator = Validator::make($request->all(), [
-                'user_id' => 'required|unique:nilais,user_id,'.$id,
-                'siswa_id' => 'required|unique:nilais,siswa_id,'.$id,
-                'akademik' => 'required',
-                'prestasi' => 'required',
-                'zona' => 'required',
-                'sktm' => 'required'
+                'user_id' => 'required|unique:akademiks,user_id,'.$id,
+                'siswa_id' => 'required|unique:akademiks,siswa_id,'.$id,
+                'bahasa_indonesia' => 'required',
+                'bahasa_inggris' => 'required',
+                'matematika' => 'required',
+                'ipa' => 'required',
 
             ]);
 
@@ -218,30 +219,30 @@ class NilaiController extends Controller
                         }                
                     } 
 
-             $check_user     = $this->nilai->where('id','!=', $id)->where('user_id', $request->user_id);
-             $check_siswa = $this->nilai->where('id','!=', $id)->where('siswa_id', $request->siswa_id);
+             $check_user     = $this->akademik->where('id','!=', $id)->where('user_id', $request->user_id);
+             $check_siswa    = $this->akademik->where('id','!=', $id)->where('siswa_id', $request->siswa_id);
 
-             if($check_user->count() > 0 || $check_siswa->count() > 0 ){
+             if($check_user->count() > 0 || $check_siswa->count() > 0){
                   $response['message'] = implode("\n",$message);
             } else {
-                $nilai->user_id = $request->input('user_id');
-                $nilai->siswa_id = $request->input('siswa_id');
-                $nilai->akademik = $request->input('akademik');
-                $nilai->prestasi = $request->input('prestasi');
-                $nilai->zona = $request->input('zona');
-                $nilai->sktm = $request->input('sktm');
-                $nilai->save();
+                $akademik->user_id    = $request->input('user_id');
+                $akademik->bahasa_indonesia    = $request->input('bahasa_indonesia');
+                $akademik->siswa_id = $request->input('siswa_id');
+                $akademik->bahasa_inggris    = $request->input('bahasa_inggris');
+                $akademik->matematika    = $request->input('matematika');
+                $akademik->ipa    = $request->input('ipa');
+                $akademik->save();
 
                 $response['message'] = 'success';
             }
         } else {
-                $nilai->user_id = $request->input('user_id');
-                $nilai->siswa_id = $request->input('siswa_id');
-                $nilai->akademik = $request->input('akademik');
-                $nilai->prestasi = $request->input('prestasi');
-                $nilai->zona = $request->input('zona');
-                $nilai->sktm = $request->input('sktm');
-                $nilai->save();
+                $akademik->user_id    = $request->input('user_id');
+                $akademik->bahasa_indonesia    = $request->input('bahasa_indonesia');
+                $akademik->siswa_id = $request->input('siswa_id');
+                $akademik->bahasa_inggris    = $request->input('bahasa_inggris');
+                $akademik->matematika    = $request->input('matematika');
+                $akademik->ipa    = $request->input('ipa');
+                $akademik->save();
 
             $response['message'] = 'success';
         }
@@ -259,9 +260,9 @@ class NilaiController extends Controller
      */
     public function destroy($id)
     {
-        $nilai = $this->nilai->findOrFail($id);
+        $akademik = $this->akademik->findOrFail($id);
 
-        if ($nilai->delete()) {
+        if ($akademik->delete()) {
             $response['status'] = true;
         } else {
             $response['status'] = false;

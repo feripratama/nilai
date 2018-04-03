@@ -8,7 +8,7 @@ use Illuminate\Database\Seeder;
  * [2] $ php artisan db:seed --class=UserSeeder
  */
 
-class BantenprovNilaiSeeder extends Seeder
+class BantenprovAkademikSeeder extends Seeder
 {
     /* text color */
     protected $RED     ="\033[0;31m";
@@ -22,7 +22,7 @@ class BantenprovNilaiSeeder extends Seeder
 
     /* File name */
     /* location : /databse/seeds/file_name.csv */
-    protected $fileName = "BantenprovNilaiSeeder.csv";
+    protected $fileName = "BantenprovAkademikSeeder.csv";
 
     /* text info : default (true) */
     protected $textInfo = true;
@@ -33,7 +33,7 @@ class BantenprovNilaiSeeder extends Seeder
     /* __construct */
     public function __construct(){
 
-        $this->model = new Bantenprov\Nilai\Models\Bantenprov\Nilai\Nilai;
+        $this->model = new Bantenprov\Akademik\Models\Bantenprov\Akademik\Akademik;
 
     }
 
@@ -56,25 +56,25 @@ class BantenprovNilaiSeeder extends Seeder
             $this->model->create([
                 'user_id' => $data['user_id'],
                 'siswa_id' => $data['siswa_id'],
-                'akademik' => $data['akademik'],
-                'prestasi' => $data['prestasi'],
-                'zona' => $data['zona'],
-                'sktm' => $data['sktm'],
+                'bahasa_indonesia' => $data['bahasa_indonesia'],
+                'bahasa_inggris' => $data['bahasa_inggris'],
+                'matematika' => $data['matematika'],
+                'ipa' => $data['ipa'],
             ]);
             
             if($this->textInfo){                
                 echo "============[DATA]============\n";
                 $this->orangeText('user_id : ').$this->greenText($data['user_id']);
                 echo"\n";
-                $this->orangeText('siswa : ').$this->greenText($data['siswa']);
+                $this->orangeText('siswa_id : ').$this->greenText($data['siswa_id']);
                 echo"\n";
-                $this->orangeText('akademik : ').$this->greenText($data['akademik']);
+                $this->orangeText('bahasa_indonesia : ').$this->greenText($data['bahasa_indonesia']);
                 echo"\n";
-                $this->orangeText('prestasi : ').$this->greenText($data['prestasi']);
+                $this->orangeText('bahasa_inggris : ').$this->greenText($data['bahasa_inggris']);
                 echo"\n";
-                $this->orangeText('zona : ').$this->greenText($data['zona']);
+                $this->orangeText('matematika : ').$this->greenText($data['matematika']);
                 echo"\n";
-                $this->orangeText('sktm : ').$this->greenText($data['sktm']);
+                $this->orangeText('ipa : ').$this->greenText($data['ipa']);
                 echo"\n";
                 echo "============[DATA]============\n\n";
             }
@@ -107,10 +107,10 @@ class BantenprovNilaiSeeder extends Seeder
         while(($data = fgetcsv($file, 1000, ",")) !== FALSE){            
             $all_data[] = ['user_id' => $data[0], 
                            'siswa_id' => $data[1],
-                           'akademik' => $data[2],
-                           'prestasi' => $data[3],
-                           'zona' => $data[4],
-                           'sktm' => $data[5],
+                           'bahasa_indonesia' => $data[2],
+                           'bahasa_inggris' => $data[3],
+                           'matematika' => $data[4],
+                           'ipa' => $data[5],
                         ];
         }        
         fclose($file);

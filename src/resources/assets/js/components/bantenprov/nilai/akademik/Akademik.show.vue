@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Nilai
+      <i class="fa fa-table" aria-hidden="true"></i> Akademik
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -14,34 +14,34 @@
 
     <div class="card-body">
       <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
-
-        <div class="form-row">
+        
+         <div class="form-row">
           <div class="col-md">
             <b>Nama Siswa :</b> {{ model.siswa.nama_siswa }}
           </div>
         </div>
 
-         <div class="form-row mt-4">
+        <div class="form-row mt-4">
           <div class="col-md">
-            <b>Akademik :</b> {{ model.akademik }}
+            <b>Bahasa Indonesia :</b> {{ model.bahasa_indonesia }}
           </div>
         </div>
 
         <div class="form-row mt-4">
           <div class="col-md">
-            <b>Prestasi :</b> {{ model.prestasi }}
+            <b>Bahasa Inggris :</b> {{ model.bahasa_inggris }}
           </div>
         </div>
 
         <div class="form-row mt-4">
           <div class="col-md">
-            <b>Zona :</b> {{ model.zona }}
+            <b>Matematika :</b> {{ model.matematika }}
           </div>
         </div>
 
         <div class="form-row mt-4">
           <div class="col-md">
-            <b>Aktm :</b> {{ model.sktm }}
+            <b>IPA :</b> {{ model.ipa }}
           </div>
         </div>
 
@@ -64,33 +64,33 @@
 <script>
 export default {
   mounted() {
-    axios.get('api/nilai/' + this.$route.params.id)
+    axios.get('api/akademik/' + this.$route.params.id)
       .then(response => {
         if (response.data.status == true) {
           this.model.siswa = response.data.siswa;
+          this.model.bahasa_indonesia = response.data.akademik.bahasa_indonesia;
+          this.model.bahasa_inggris = response.data.akademik.bahasa_inggris;
+          this.model.matematika = response.data.akademik.matematika;
+          this.model.ipa = response.data.akademik.ipa;
           this.model.user = response.data.user;
-          this.model.akademik = response.data.nilai.akademik;
-          this.model.prestasi = response.data.nilai.prestasi;
-          this.model.zona = response.data.nilai.zona;
-          this.model.sktm = response.data.nilai.sktm;
-          this.model.created_at = response.data.nilai.created_at;          
-          this.model.updated_at = response.data.nilai.updated_at;          
+          this.model.created_at = response.data.akademik.created_at;
+          this.model.updated_at = response.data.akademik.updated_at;
         } else {
           alert('Failed');
         }
       })
       .catch(function(response) {
         alert('Break');
-        window.location.href = '#/admin/nilai';
+        window.location.href = '#/admin/akademik';
       }),
 
-      axios.get('api/nilai/create')
+      axios.get('api/akademik/create')
       .then(response => {           
-          response.data.siswa.forEach(element => {
-            this.siswa.push(element);
-          });
           response.data.user.forEach(element => {
             this.user.push(element);
+          });
+          response.data.siswa.forEach(element => {
+            this.siswa.push(element);
           });
       })
       .catch(function(response) {
@@ -102,16 +102,14 @@ export default {
       state: {},
       model: {
         siswa: "",
-        user: "",
-        akademik: "",
-        prestasi: "",
-        zona: "",
-        sktm: "",
-        created_at: "",
-        updated_at: ""
+        bahasa_indonesia: "",
+        bahasa_inggris: "",
+        matematika: "",
+        ipa: "",
+        user: ""
       },
-      siswa: [],
-      user: []
+      user: [],
+      siswa: []
     }
   },
   methods: {
@@ -121,7 +119,7 @@ export default {
       if (this.state.$invalid) {
         return;
       } else {
-        axios.put('api/nilai/' + this.$route.params.id, {
+        axios.put('api/akademik/' + this.$route.params.id, {
             label: this.model.label,
             description: this.model.description,
             old_label: this.model.old_label,
@@ -145,11 +143,11 @@ export default {
       }
     },
     reset() {
-      axios.get('api/nilai/' + this.$route.params.id + '/edit')
+      axios.get('api/akademik/' + this.$route.params.id + '/edit')
         .then(response => {
           if (response.data.status == true) {
-            this.model.label = response.data.nilai.label;
-            this.model.description = response.data.nilai.description;
+            this.model.label = response.data.akademik.label;
+            this.model.description = response.data.akademik.description;
           } else {
             alert('Failed');
           }
@@ -159,7 +157,7 @@ export default {
         });
     },
     back() {
-      window.location = '#/admin/nilai';
+      window.location = '#/admin/akademik';
     }
   }
 }

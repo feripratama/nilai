@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Add Nilai
+      <i class="fa fa-table" aria-hidden="true"></i> Add Akademik
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -14,8 +14,6 @@
 
     <div class="card-body">
       <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
-
-
 
         <div class="form-row mt-4">
           <div class="col-md">
@@ -33,44 +31,44 @@
 
         <validate tag="div">
           <div class="form-group">
-            <label for="model-akademik">Akademik</label>
-            <input type="text" class="form-control" id="model-akademik" v-model="model.akademik" name="akademik" placeholder="Akademik" required>
-            <field-messages name="akademik" show="$invalid && $submitted" class="text-danger">
+            <label for="model-bahasa_indonesia">Bahasa Indonesia</label>
+            <input type="text" class="form-control" id="model-bahasa_indonesia" v-model="model.bahasa_indonesia" name="bahasa_indonesia" placeholder="Bahasa Indonesia" required>
+            <field-messages name="bahasa_indonesia" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Akademik is a required field</small>
+              <small class="form-text text-danger" slot="required">Bahasa Indonesia is a required field</small>
             </field-messages>
           </div>
         </validate>
 
         <validate tag="div">
           <div class="form-group">
-            <label for="model-prestasi">Prestasi</label>
-            <input type="text" class="form-control" id="model-prestasi" v-model="model.prestasi" name="prestasi" placeholder="Prestasi" required>
-            <field-messages name="prestasi" show="$invalid && $submitted" class="text-danger">
+            <label for="model-bahasa_inggris">Bahasa Inggris</label>
+            <input type="text" class="form-control" id="model-bahasa_inggris" v-model="model.bahasa_inggris" name="bahasa_inggris" placeholder="Bahasa Inggris" required>
+            <field-messages name="bahasa_inggris" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Prestasi is a required field</small>
+              <small class="form-text text-danger" slot="required">Bahasa Inggris is a required field</small>
             </field-messages>
           </div>
         </validate>
 
         <validate tag="div">
           <div class="form-group">
-            <label for="model-zona">Zona</label>
-            <input type="text" class="form-control" id="model-zona" v-model="model.zona" name="zona" placeholder="Zona" required>
-            <field-messages name="zona" show="$invalid && $submitted" class="text-danger">
+            <label for="model-matematika">Matematika</label>
+            <input type="text" class="form-control" id="model-matematika" v-model="model.matematika" name="matematika" placeholder="Matematika" required>
+            <field-messages name="matematika" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Zona is a required field</small>
+              <small class="form-text text-danger" slot="required">Matematika is a required field</small>
             </field-messages>
           </div>
         </validate>
 
         <validate tag="div">
           <div class="form-group">
-            <label for="model-sktm">Sktm</label>
-            <input type="text" class="form-control" id="model-sktm" v-model="model.sktm" name="sktm" placeholder="Sktm" required>
-            <field-messages name="sktm" show="$invalid && $submitted" class="text-danger">
+            <label for="model-ipa">IPA</label>
+            <input type="text" class="form-control" id="model-ipa" v-model="model.ipa" name="ipa" placeholder="IPA" required>
+            <field-messages name="ipa" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Sktm is a required field</small>
+              <small class="form-text text-danger" slot="required">IPA is a required field</small>
             </field-messages>
           </div>
         </validate>
@@ -105,13 +103,13 @@
 <script>
 export default {
   mounted(){
-    axios.get('api/nilai/create')
+    axios.get('api/akademik/create')
     .then(response => {           
-        response.data.siswa.forEach(element => {
-          this.siswa.push(element);
-        });
         response.data.user.forEach(element => {
           this.user.push(element);
+        });
+        response.data.siswa.forEach(element => {
+          this.siswa.push(element);
         });
     })
     .catch(function(response) {
@@ -123,14 +121,14 @@ export default {
       state: {},
       model: {
         siswa: "",
-        user: "",
-        akademik: "",
-        prestasi: "",
-        zona: "",
-        sktm: ""
+        bahasa_indonesia: "",
+        bahasa_inggris: "",
+        matematika: "",
+        ipa: "",
+        user: ""
       },
-      siswa: [],
-      user: []
+      user: [],
+      siswa: []
     }
   },
   methods: {
@@ -140,14 +138,13 @@ export default {
       if (this.state.$invalid) {
         return;
       } else {
-        axios.post('api/nilai', {
+        axios.post('api/akademik', {
             siswa_id: this.model.siswa.id,
-            user_id: this.model.user.id,
-            akademik: this.model.akademik,
-            prestasi: this.model.prestasi,
-            zona: this.model.zona,
-            sktm: this.model.sktm
-
+            bahasa_inggris: this.model.bahasa_inggris,
+            bahasa_indonesia: this.model.bahasa_indonesia,
+            matematika: this.model.matematika,
+            ipa: this.model.ipa,
+            user_id: this.model.user.id
           })
           .then(response => {
             if (response.data.status == true) {
@@ -168,15 +165,14 @@ export default {
     },
     reset() {
       this.model = {
-        akademik: "",
-        prestasi: "",
-        zona: "",
-        sktm: ""
-          
+        bahasa_indonesia: "",
+        bahasa_inggris: "",
+        matematika: "",
+        ipa: ""
       };
     },
     back() {
-      window.location = '#/admin/nilai';
+      window.location = '#/admin/akademik';
     }
   }
 }

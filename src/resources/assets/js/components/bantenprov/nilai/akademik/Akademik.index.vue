@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Nilai
+      <i class="fa fa-table" aria-hidden="true"></i> Akademik
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -26,7 +26,7 @@
 
       <div class="table-responsive">
         <vuetable ref="vuetable"
-          api-url="/api/nilai"
+          api-url="/api/akademik"
           :fields="fields"
           :sort-order="sortOrder"
           :css="css.table"
@@ -98,27 +98,27 @@ export default {
           titleClass: 'center aligned'
         },
         {
-          name: 'akademik',
-          title: 'Akademik',
-          sortField: 'akademik',
+          name: 'bahasa_indonesia',
+          title: 'Bahasa Indonesia',
+          sortField: 'bahasa_indonesia',
           titleClass: 'center aligned'
         },
         {
-          name: 'prestasi',
-          title: 'Prestasi',
-          sortField: 'prestasi',
+          name: 'bahasa_inggris',
+          title: 'Bahasa Inggris',
+          sortField: 'bahasa_inggris',
           titleClass: 'center aligned'
         },
         {
-          name: 'zona',
-          title: 'Zona',
-          sortField: 'zona',
+          name: 'matematika',
+          title: 'Matematika',
+          sortField: 'matematika',
           titleClass: 'center aligned'
         },
         {
-          name: 'sktm',
-          title: 'Sktm',
-          sortField: 'sktm',
+          name: 'ipa',
+          title: 'IPA',
+          sortField: 'ipa',
           titleClass: 'center aligned'
         },
         {
@@ -163,19 +163,19 @@ export default {
   },
   methods: {
     createRow() {
-      window.location = '#/admin/nilai/create';
+      window.location = '#/admin/akademik/create';
     },
     viewRow(rowData) {
-      window.location = '#/admin/nilai/' + rowData.id;
+      window.location = '#/admin/akademik/' + rowData.id;
     },
     editRow(rowData) {
-      window.location = '#/admin/nilai/' + rowData.id + '/edit';
+      window.location = '#/admin/akademik/' + rowData.id + '/edit';
     },
     deleteRow(rowData) {
       let app = this;
 
       if (confirm('Do you really want to delete it?')) {
-        axios.delete('/api/nilai/' + rowData.id)
+        axios.delete('/api/akademik/' + rowData.id)
           .then(function(response) {
             if (response.data.status == true) {
               app.$refs.vuetable.reload()
