@@ -100,6 +100,18 @@ $ php artisan vendor:publish --tag=nilai-public
             title: "Nilai"
            }
        },
+
+        {
+         path: '/dashboard/akademik',
+         components: {
+            main: resolve => require(['./components/views/bantenprov/nilai/akademik/DashboardAkademik.vue'], resolve),
+            navbar: resolve => require(['./components/Navbar.vue'], resolve),
+            sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+          },
+          meta: {
+            title: "Akademik"
+           }
+       },
         //== ...
     ]
 },
@@ -156,6 +168,51 @@ $ php artisan vendor:publish --tag=nilai-public
                 title: "Edit Nilai"
             }
         },
+         
+	{
+            path: '/admin/akademik',
+            components: {
+                main: resolve => require(['./components/bantenprov/nilai/akademik/Akademik.index.vue'], resolve),
+                navbar: resolve => require(['./components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "Akademik"
+            }
+        },
+        {
+            path: '/admin/akademik/create',
+            components: {
+                main: resolve => require(['./components/bantenprov/nilai/akademik/Akademik.add.vue'], resolve),
+                navbar: resolve => require(['./components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "Add Akademik"
+            }
+        },
+        {
+            path: '/admin/akademik/:id',
+            components: {
+                main: resolve => require(['./components/bantenprov/nilai/akademik/Akademik.show.vue'], resolve),
+                navbar: resolve => require(['./components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "View Akademik"
+            }
+        },
+        {
+            path: '/admin/akademik/:id/edit',
+            components: {
+                main: resolve => require(['./components/bantenprov/nilai/akademik/Akademik.edit.vue'], resolve),
+                navbar: resolve => require(['./components/Navbar.vue'], resolve),
+                sidebar: resolve => require(['./components/Sidebar.vue'], resolve)
+            },
+            meta: {
+                title: "Edit Akademik"
+            }
+        },
         //== ...
     ]
 },
@@ -174,6 +231,11 @@ $ php artisan vendor:publish --tag=nilai-public
         link: '/dashboard/nilai',
         icon: 'fa fa-angle-double-right'
         },
+	{
+        name: 'Akademik',
+        link: '/dashboard/akademik',
+        icon: 'fa fa-angle-double-right'
+      },
         //== ...
     ]
 },
@@ -191,6 +253,11 @@ $ php artisan vendor:publish --tag=nilai-public
         link: '/admin/nilai',
         icon: 'fa fa-angle-double-right'
         },
+	{
+        name: 'Akademik',
+        link: '/admin/akademik',
+        icon: 'fa fa-angle-double-right'
+      },
         //== ...
     ]
 },
@@ -236,6 +303,30 @@ Vue.component('nilai-pie-02', NilaiPie02);
 
 import NilaiPie03 from './components/views/bantenprov/nilai/NilaiPie03.vue';
 Vue.component('nilai-pie-03', NilaiPie03);
+
+//== Akademik
+
+import AkademikBar01 from './components/views/bantenprov/nilai/akademik/AkademikBar01.vue';
+Vue.component('akademik-bar-01', AkademikBar01);
+
+import AkademikBar02 from './components/views/bantenprov/nilai/akademik/AkademikBar02.vue';
+Vue.component('akademik-bar-02', AkademikBar02);
+
+//== mini bar charts
+import AkademikBar03 from './components/views/bantenprov/nilai/akademik/AkademikBar03.vue';
+Vue.component('akademik-bar-03', AkademikBar03);
+
+import AkademikPie01 from './components/views/bantenprov/nilai/akademik/AkademikPie01.vue';
+Vue.component('akademik-pie-01', AkademikPie01);
+
+import AkademikPie02 from './components/views/bantenprov/nilai/akademik/AkademikPie02.vue';
+Vue.component('akademik-pie-02', AkademikPie02);
+
+//== mini pie charts
+
+
+import AkademikPie03 from './components/views/bantenprov/nilai/akademik/AkademikPie03.vue';
+Vue.component('akademik-pie-03', AkademikPie03);
 
 ```
 
