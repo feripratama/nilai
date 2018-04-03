@@ -17,37 +17,31 @@
 
         <div class="form-row">
           <div class="col-md">
-            <b>Nomor UN :</b> {{ model.siswa.nomor_un }}
+            <b>Nama Siswa :</b> {{ model.siswa.nama_siswa }}
+          </div>
+        </div>
+
+         <div class="form-row mt-4">
+          <div class="col-md">
+            <b>Akademik :</b> {{ model.akademik }}
           </div>
         </div>
 
         <div class="form-row mt-4">
           <div class="col-md">
-            <b>Siswa :</b> {{ model.siswa.nama_siswa }}
+            <b>Prestasi :</b> {{ model.prestasi }}
           </div>
         </div>
 
         <div class="form-row mt-4">
           <div class="col-md">
-            <b>Akademik :</b> {{ model.akademik_id }}
+            <b>Zona :</b> {{ model.zona }}
           </div>
         </div>
 
         <div class="form-row mt-4">
           <div class="col-md">
-            <b>Prestasi :</b> {{ model.prestasi.nama_lomba }}
-          </div>
-        </div>
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <b>Zona :</b> {{ model.zona_id }}
-          </div>
-        </div>
-
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <b>STKM :</b> {{ model.sktm.no_sktm }}
+            <b>Aktm :</b> {{ model.sktm }}
           </div>
         </div>
 
@@ -73,15 +67,14 @@ export default {
     axios.get('api/nilai/' + this.$route.params.id)
       .then(response => {
         if (response.data.status == true) {
-          this.model.nomor_un = response.data.nilai.nomor_un;
           this.model.siswa = response.data.siswa;
-          this.model.akademik_id = response.data.nilai.akademik_id;
-          this.model.prestasi = response.data.prestasi;
-          this.model.zona_id = response.data.nilai.zona_id;
-          this.model.sktm = response.data.sktm;
-          this.model.user = response.data.nilai.user;
-          this.model.created_at = response.data.orang_tua.created_at;
-          this.model.updated_at = response.data.orang_tua.updated_at;          
+          this.model.user = response.data.user;
+          this.model.akademik = response.data.nilai.akademik;
+          this.model.prestasi = response.data.nilai.prestasi;
+          this.model.zona = response.data.nilai.zona;
+          this.model.sktm = response.data.nilai.sktm;
+          this.model.created_at = response.data.nilai.created_at;          
+          this.model.updated_at = response.data.nilai.updated_at;          
         } else {
           alert('Failed');
         }
@@ -96,6 +89,9 @@ export default {
           response.data.siswa.forEach(element => {
             this.siswa.push(element);
           });
+          response.data.user.forEach(element => {
+            this.user.push(element);
+          });
       })
       .catch(function(response) {
         alert('Break');
@@ -105,18 +101,17 @@ export default {
     return {
       state: {},
       model: {
-      nomor_un: "",
         siswa: "",
-        akademik_id: "",
+        user: "",
+        akademik: "",
         prestasi: "",
-        zona_id: "",
+        zona: "",
         sktm: "",
-        user: ""
+        created_at: "",
+        updated_at: ""
       },
       siswa: [],
-      user: [],
-      prestasi: [],
-      sktm: []
+      user: []
     }
   },
   methods: {

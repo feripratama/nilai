@@ -92,39 +92,33 @@ export default {
           dataClass: 'right aligned'
         },
         {
-          name: 'nomor_un',
-          title: 'Nomor UN',
-          sortField: 'nomor_un',
-          titleClass: 'center aligned'
-        },
-        {
           name: 'siswa.nama_siswa',
-          title: 'Siswa',
-          sortField: 'siswa_id',
+          title: 'Nama Siswa',
+          sortField: 'Siswa_id',
           titleClass: 'center aligned'
         },
         {
-          name: 'akademik_id',
+          name: 'akademik',
           title: 'Akademik',
-          sortField: 'akademik_id',
+          sortField: 'akademik',
           titleClass: 'center aligned'
         },
         {
-          name: 'prestasi.nama_lomba',
-          title: 'Siswa',
-          sortField: 'prestasi_id',
+          name: 'prestasi',
+          title: 'Prestasi',
+          sortField: 'prestasi',
           titleClass: 'center aligned'
         },
         {
-          name: 'zona_id',
+          name: 'zona',
           title: 'Zona',
-          sortField: 'zona_id',
+          sortField: 'zona',
           titleClass: 'center aligned'
         },
         {
-          name: 'sktm.no_sktm',
+          name: 'sktm',
           title: 'Sktm',
-          sortField: 'sktm_id',
+          sortField: 'sktm',
           titleClass: 'center aligned'
         },
         {

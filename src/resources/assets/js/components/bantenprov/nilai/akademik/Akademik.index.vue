@@ -92,9 +92,9 @@ export default {
           dataClass: 'right aligned'
         },
         {
-          name: 'nomor_un',
-          title: 'Nomor UN',
-          sortField: 'nomor_un',
+          name: 'siswa.nama_siswa',
+          title: 'Nama Siswa',
+          sortField: 'Siswa_id',
           titleClass: 'center aligned'
         },
         {
@@ -116,6 +116,12 @@ export default {
           titleClass: 'center aligned'
         },
         {
+          name: 'ipa',
+          title: 'IPA',
+          sortField: 'ipa',
+          titleClass: 'center aligned'
+        },
+        {
           name: 'user.name',
           title: 'Username',
           sortField: 'user_id',
@@ -129,7 +135,7 @@ export default {
         },
       ],
       sortOrder: [{
-        field: 'label',
+        field: 'id',
         direction: 'asc'
       }],
       moreParams: {},

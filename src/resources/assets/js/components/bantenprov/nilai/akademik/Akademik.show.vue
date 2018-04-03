@@ -17,7 +17,7 @@
         
          <div class="form-row">
           <div class="col-md">
-            <b>Nomor UN :</b> {{ model.nomor_un }}
+            <b>Nama Siswa :</b> {{ model.siswa.nama_siswa }}
           </div>
         </div>
 
@@ -36,6 +36,12 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <b>Matematika :</b> {{ model.matematika }}
+          </div>
+        </div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <b>IPA :</b> {{ model.ipa }}
           </div>
         </div>
 
@@ -61,13 +67,14 @@ export default {
     axios.get('api/akademik/' + this.$route.params.id)
       .then(response => {
         if (response.data.status == true) {
-          this.model.nomor_un = response.data.akademik.nomor_un;
+          this.model.siswa = response.data.siswa;
           this.model.bahasa_indonesia = response.data.akademik.bahasa_indonesia;
           this.model.bahasa_inggris = response.data.akademik.bahasa_inggris;
           this.model.matematika = response.data.akademik.matematika;
-          this.model.user = response.data.akademik.user;
-          this.model.created_at = response.data.orang_tua.created_at;
-          this.model.updated_at = response.data.orang_tua.updated_at;
+          this.model.ipa = response.data.akademik.ipa;
+          this.model.user = response.data.user;
+          this.model.created_at = response.data.akademik.created_at;
+          this.model.updated_at = response.data.akademik.updated_at;
         } else {
           alert('Failed');
         }
@@ -82,6 +89,9 @@ export default {
           response.data.user.forEach(element => {
             this.user.push(element);
           });
+          response.data.siswa.forEach(element => {
+            this.siswa.push(element);
+          });
       })
       .catch(function(response) {
         alert('Break');
@@ -91,13 +101,15 @@ export default {
     return {
       state: {},
       model: {
-        nomor_un: "",
+        siswa: "",
         bahasa_indonesia: "",
         bahasa_inggris: "",
         matematika: "",
+        ipa: "",
         user: ""
       },
-      user: []
+      user: [],
+      siswa: []
     }
   },
   methods: {

@@ -55,23 +55,26 @@ class BantenprovAkademikSeeder extends Seeder
 
             $this->model->create([
                 'user_id' => $data['user_id'],
-                'nomor_un' => $data['nomor_un'],
+                'siswa_id' => $data['siswa_id'],
                 'bahasa_indonesia' => $data['bahasa_indonesia'],
                 'bahasa_inggris' => $data['bahasa_inggris'],
                 'matematika' => $data['matematika'],
+                'ipa' => $data['ipa'],
             ]);
             
             if($this->textInfo){                
                 echo "============[DATA]============\n";
                 $this->orangeText('user_id : ').$this->greenText($data['user_id']);
                 echo"\n";
-                $this->orangeText('nomor_un : ').$this->greenText($data['nomor_un']);
+                $this->orangeText('siswa_id : ').$this->greenText($data['siswa_id']);
                 echo"\n";
                 $this->orangeText('bahasa_indonesia : ').$this->greenText($data['bahasa_indonesia']);
                 echo"\n";
                 $this->orangeText('bahasa_inggris : ').$this->greenText($data['bahasa_inggris']);
                 echo"\n";
                 $this->orangeText('matematika : ').$this->greenText($data['matematika']);
+                echo"\n";
+                $this->orangeText('ipa : ').$this->greenText($data['ipa']);
                 echo"\n";
                 echo "============[DATA]============\n\n";
             }
@@ -103,10 +106,11 @@ class BantenprovAkademikSeeder extends Seeder
         $row = 1;
         while(($data = fgetcsv($file, 1000, ",")) !== FALSE){            
             $all_data[] = ['user_id' => $data[0], 
-                           'nomor_un' => $data[1],
+                           'siswa_id' => $data[1],
                            'bahasa_indonesia' => $data[2],
                            'bahasa_inggris' => $data[3],
                            'matematika' => $data[4],
+                           'ipa' => $data[5],
                         ];
         }        
         fclose($file);
