@@ -17,80 +17,63 @@
 
 
 
-        <validate tag="div">
-          <div class="form-group">
-            <label for="model-nomor_un">Nomor UN</label>
-            <input type="text" class="form-control" id="model-nomor_un" v-model="model.nomor_un" name="nomor_un" placeholder="Nomor UN" required>
-            <field-messages name="nomor_un" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Nomor UN is a required field</small>
-            </field-messages>
-          </div>
-        </validate>
-
         <div class="form-row mt-4">
-					<div class="col-md">
-						<validate tag="div">
-						<label for="siswa">Siswa</label>
-						<v-select name="siswa" v-model="model.siswa" :options="siswa" class="mb-4"></v-select>
+          <div class="col-md">
+            <validate tag="div">
+            <label for="siswa_id">Nama Siswa</label>
+            <v-select name="siswa_id" v-model="model.siswa" :options="siswa" class="mb-4"></v-select>
 
-						<field-messages name="siswa" show="$invalid && $submitted" class="text-danger">
-							<small class="form-text text-success">Looks good!</small>
-							<small class="form-text text-danger" slot="required">Siswa is a required field</small>
-						</field-messages>
-						</validate>
-					</div>
-				</div>
+            <field-messages name="siswa_id" show="$invalid && $submitted" class="text-danger">
+              <small class="form-text text-success">Looks good!</small>
+              <small class="form-text text-danger" slot="required">Nama Siswa is a required field</small>
+            </field-messages>
+            </validate>
+          </div>
+        </div>
 
         <validate tag="div">
           <div class="form-group">
-            <label for="model-akademik_id">Akademik</label>
-            <input type="text" class="form-control" id="model-akademik_id" v-model="model.akademik_id" name="akademik_id" placeholder="Akademik" required>
-            <field-messages name="akademik_id" show="$invalid && $submitted" class="text-danger">
+            <label for="model-akademik">Akademik</label>
+            <input type="text" class="form-control" id="model-akademik" v-model="model.akademik" name="akademik" placeholder="Akademik" required>
+            <field-messages name="akademik" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
               <small class="form-text text-danger" slot="required">Akademik is a required field</small>
             </field-messages>
           </div>
         </validate>
 
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <validate tag="div">
-            <label for="prestasi">Prestasi</label>
-            <v-select name="prestasi" v-model="model.prestasi" :options="prestasi" class="mb-4"></v-select>
-
+        <validate tag="div">
+          <div class="form-group">
+            <label for="model-prestasi">Prestasi</label>
+            <input type="text" class="form-control" id="model-prestasi" v-model="model.prestasi" name="prestasi" placeholder="Prestasi" required>
             <field-messages name="prestasi" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
               <small class="form-text text-danger" slot="required">Prestasi is a required field</small>
             </field-messages>
-            </validate>
           </div>
-        </div>
+        </validate>
 
         <validate tag="div">
           <div class="form-group">
-            <label for="model-zona_id">Zona</label>
-            <input type="text" class="form-control" id="model-zona_id" v-model="model.zona_id" name="zona_id" placeholder="Zona" required>
-            <field-messages name="zona_id" show="$invalid && $submitted" class="text-danger">
+            <label for="model-zona">Zona</label>
+            <input type="text" class="form-control" id="model-zona" v-model="model.zona" name="zona" placeholder="Zona" required>
+            <field-messages name="zona" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
               <small class="form-text text-danger" slot="required">Zona is a required field</small>
             </field-messages>
           </div>
         </validate>
 
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <validate tag="div">
-            <label for="sktm">Sktm</label>
-            <v-select name="sktm" v-model="model.sktm" :options="sktm" class="mb-4"></v-select>
-
+        <validate tag="div">
+          <div class="form-group">
+            <label for="model-sktm">Sktm</label>
+            <input type="text" class="form-control" id="model-sktm" v-model="model.sktm" name="sktm" placeholder="Sktm" required>
             <field-messages name="sktm" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
               <small class="form-text text-danger" slot="required">Sktm is a required field</small>
             </field-messages>
-            </validate>
           </div>
-        </div>
+        </validate>
 
         <div class="form-row mt-4">
           <div class="col-md">
@@ -127,12 +110,6 @@ export default {
         response.data.siswa.forEach(element => {
           this.siswa.push(element);
         });
-        response.data.prestasi.forEach(element => {
-          this.prestasi.push(element);
-        });
-        response.data.sktm.forEach(element => {
-          this.sktm.push(element);
-        });
         response.data.user.forEach(element => {
           this.user.push(element);
         });
@@ -145,18 +122,15 @@ export default {
     return {
       state: {},
       model: {
-        nomor_un: "",
         siswa: "",
-        akademik_id: "",
+        user: "",
+        akademik: "",
         prestasi: "",
-        zona_id: "",
-        sktm: "",
-        user: ""
+        zona: "",
+        sktm: ""
       },
       siswa: [],
-      user: [],
-      prestasi: [],
-      sktm: []
+      user: []
     }
   },
   methods: {
@@ -167,13 +141,13 @@ export default {
         return;
       } else {
         axios.post('api/nilai', {
-            nomor_un: this.model.nomor_un,
-            akademik_id: this.model.akademik_id,
-            zona_id: this.model.zona_id,
             siswa_id: this.model.siswa.id,
             user_id: this.model.user.id,
-            prestasi_id: this.model.prestasi.id,
-            sktm_id: this.model.sktm.id
+            akademik: this.model.akademik,
+            prestasi: this.model.prestasi,
+            zona: this.model.zona,
+            sktm: this.model.sktm
+
           })
           .then(response => {
             if (response.data.status == true) {
@@ -194,9 +168,11 @@ export default {
     },
     reset() {
       this.model = {
-          nomor_un: "",
-          akademik_id: "",
-          zona_id: ""
+        akademik: "",
+        prestasi: "",
+        zona: "",
+        sktm: ""
+          
       };
     },
     back() {

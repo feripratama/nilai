@@ -108,10 +108,10 @@ class NilaiController extends Controller
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|unique:nilais,user_id',
             'siswa_id' => 'required|unique:nilais,siswa_id',
-            'akademik_id' => 'required|unique:nilais,akademik_id',
-            'prestasi_id' => 'required|unique:nilais,prestasi_id',
-            'zona_id' => 'required|unique:nilais,zona_id',
-            'sktm_id' => 'required|unique:nilais,sktm_id'
+            'akademik' => 'required',
+            'prestasi' => 'required',
+            'zona' => 'required',
+            'sktm' => 'required'
         ]);
 
         if($validator->fails()){
@@ -122,10 +122,10 @@ class NilaiController extends Controller
             } else {
                 $nilai->user_id = $request->input('user_id');
                 $nilai->siswa_id = $request->input('siswa_id');
-                $nilai->akademik_id = $request->input('akademik_id');
-                $nilai->prestasi_id = $request->input('prestasi_id');
-                $nilai->zona_id = $request->input('zona_id');
-                $nilai->sktm_id = $request->input('sktm_id');
+                $nilai->akademik = $request->input('akademik');
+                $nilai->prestasi = $request->input('prestasi');
+                $nilai->zona = $request->input('zona');
+                $nilai->sktm = $request->input('sktm');
                 $nilai->save();
 
                 $response['message'] = 'success';
@@ -133,10 +133,10 @@ class NilaiController extends Controller
         } else {
                 $nilai->user_id = $request->input('user_id');
                 $nilai->siswa_id = $request->input('siswa_id');
-                $nilai->akademik_id = $request->input('akademik_id');
-                $nilai->prestasi_id = $request->input('prestasi_id');
-                $nilai->zona_id = $request->input('zona_id');
-                $nilai->sktm_id = $request->input('sktm_id');
+                $nilai->akademik = $request->input('akademik');
+                $nilai->prestasi = $request->input('prestasi');
+                $nilai->zona = $request->input('zona');
+                $nilai->sktm = $request->input('sktm');
                 $nilai->save();
 
             $response['message'] = 'success';
@@ -201,12 +201,12 @@ class NilaiController extends Controller
         $nilai = $this->nilai->findOrFail($id);
 
             $validator = Validator::make($request->all(), [
-                'user_id' => 'required|unique:nilais,user_id',
-                'siswa_id' => 'required|unique:nilais,siswa_id',
-                'akademik_id' => 'required|unique:nilais,akademik_id',
-                'prestasi_id' => 'required|unique:nilais,prestasi_id',
-                'zona_id' => 'required|unique:nilais,zona_id',
-                'sktm_id' => 'required|unique:nilais,sktm_id'
+                'user_id' => 'required|unique:nilais,user_id,'.$id,
+                'siswa_id' => 'required|unique:nilais,siswa_id,'.$id,
+                'akademik' => 'required',
+                'prestasi' => 'required',
+                'zona' => 'required',
+                'sktm' => 'required'
 
             ]);
 
@@ -226,10 +226,10 @@ class NilaiController extends Controller
             } else {
                 $nilai->user_id = $request->input('user_id');
                 $nilai->siswa_id = $request->input('siswa_id');
-                $nilai->akademik_id = $request->input('akademik_id');
-                $nilai->prestasi_id = $request->input('prestasi_id');
-                $nilai->zona_id = $request->input('zona_id');
-                $nilai->sktm_id = $request->input('sktm_id');
+                $nilai->akademik = $request->input('akademik');
+                $nilai->prestasi = $request->input('prestasi');
+                $nilai->zona = $request->input('zona');
+                $nilai->sktm = $request->input('sktm');
                 $nilai->save();
 
                 $response['message'] = 'success';
@@ -237,10 +237,10 @@ class NilaiController extends Controller
         } else {
                 $nilai->user_id = $request->input('user_id');
                 $nilai->siswa_id = $request->input('siswa_id');
-                $nilai->akademik_id = $request->input('akademik_id');
-                $nilai->prestasi_id = $request->input('prestasi_id');
-                $nilai->zona_id = $request->input('zona_id');
-                $nilai->sktm_id = $request->input('sktm_id');
+                $nilai->akademik = $request->input('akademik');
+                $nilai->prestasi = $request->input('prestasi');
+                $nilai->zona = $request->input('zona');
+                $nilai->sktm = $request->input('sktm');
                 $nilai->save();
 
             $response['message'] = 'success';

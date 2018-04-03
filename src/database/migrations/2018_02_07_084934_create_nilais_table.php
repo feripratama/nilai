@@ -15,11 +15,11 @@ class CreateNilaisTable extends Migration
 		Schema::create('nilais', function(Blueprint $table) {
 			$table->increments('id');
 			$table->integer('user_id');
-			$table->bigInteger('siswa_id');
-			$table->integer('akademik_id');
-			$table->integer('prestasi_id');
-			$table->string('zona_id');
-			$table->integer('sktm_id');
+			$table->Integer('siswa_id');
+			$table->decimal('akademik');
+			$table->decimal('prestasi');
+			$table->decimal('zona');
+			$table->decimal('sktm');
 			$table->timestamps();
 			$table->softDeletes();
 		});

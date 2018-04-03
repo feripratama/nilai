@@ -16,8 +16,12 @@ class Nilai extends Model
         'deleted_at'
     ];
     protected $fillable = [
+        'user_id',
         'siswa_id',
-        'user_id'        
+        'akademik',
+        'prestasi',
+        'zona',
+        'sktm'       
         
     ];
 
@@ -25,7 +29,7 @@ class Nilai extends Model
     {
         return $this->belongsTo('Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa','siswa_id');
     }
-    
+
     public function user()
     {
         return $this->belongsTo('App\User','user_id');
