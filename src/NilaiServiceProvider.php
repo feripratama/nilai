@@ -76,7 +76,7 @@ class NilaiServiceProvider extends ServiceProvider
     protected function configHandle()
     {
         $packageConfigPath = __DIR__.'/config/config.php';
-        $appConfigPath     = config_path('nilai.php');
+        $appConfigPath     = config_path('bantenprov/nilai/nilai.php');
 
         $this->mergeConfigFrom($packageConfigPath, 'nilai');
 
