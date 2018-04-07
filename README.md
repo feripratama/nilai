@@ -77,8 +77,7 @@ $ php artisan db:seed --class=BantenprovNilaiSeeder
 #### Lakukan publish component vue :
 
 ```bash
-$ php artisan vendor:publish --tag=nilai-assets
-$ php artisan vendor:publish --tag=nilai-public
+$ php artisan vendor:publish --tag=nilai-publish
 ```
 #### Tambahkan route di dalam file : `resources/assets/js/routes.js` :
 
@@ -168,7 +167,7 @@ $ php artisan vendor:publish --tag=nilai-public
                 title: "Edit Nilai"
             }
         },
-         
+
 	{
             path: '/admin/akademik',
             components: {

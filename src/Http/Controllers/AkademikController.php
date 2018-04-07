@@ -67,7 +67,7 @@ class AkademikController extends Controller
 
         $perPage = request()->has('per_page') ? (int) request()->per_page : null;
         $response = $query->with('user')->with('siswa')->paginate($perPage);
-                
+
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', 'GET');
@@ -79,7 +79,7 @@ class AkademikController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {        
+    {
         $users = $this->user->all();
         $siswas = $this->siswa->all();
 
@@ -90,7 +90,7 @@ class AkademikController extends Controller
         foreach($siswas as $siswa){
             array_set($siswa, 'label', $siswa->nama_siswa);
         }
-        
+
         $response['user'] = $users;
         $response['siswa'] = $siswas;
         $response['status'] = true;
@@ -108,12 +108,7 @@ class AkademikController extends Controller
     {
         $akademik = $this->akademik;
 
-        $bahasa_indonesia = $request->bahasa_indonesia;
-        $bahasa_inggris = $request->bahasa_inggris;
-        $matematika = $request->matematika;
-        $ipa = $request->ipa;
-
-        $total_nialai_akademik = $bahasa_indonesia + $bahasa_inggris + $matematika + $ipa;
+        $total_nilai_akademik = $this->akademik->storeNilaiAkademik($request);
 
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|unique:akademiks,user_id',
@@ -138,22 +133,21 @@ class AkademikController extends Controller
                 $akademik->ipa = $request->input('ipa');
                 $akademik->save();
 
-                
+
                 $check_akademik = $this->nilai->where('siswa_id', $request->input('siswa_id'));
                 if($check_akademik->count() > 0){
                     $this->nilai->where('siswa_id', $request->input('siswa_id'))->update([
                         'user_id' => $request->input('user_id'),
                         'siswa_id' => $request->input('siswa_id'),
-                        'akademik' => $total_nialai_akademik
+                        'akademik' => $total_nilai_akademik
                     ]);
                 }else{
                     $this->nilai->create([
                         'user_id' => $request->input('user_id'),
                         'siswa_id' => $request->input('siswa_id'),
-                        'akademik' => $total_nialai_akademik
+                        'akademik' => $total_nilai_akademik
                     ]);
                 }
-
 
                 $response['message'] = 'success';
             }
@@ -172,18 +166,15 @@ class AkademikController extends Controller
                     $this->nilai->where('siswa_id', $request->input('siswa_id'))->update([
                         'user_id' => $request->input('user_id'),
                         'siswa_id' => $request->input('siswa_id'),
-                        'akademik' => $total_nialai_akademik
+                        'akademik' => $total_nilai_akademik
                     ]);
                 }else{
                     $this->nilai->create([
                         'user_id' => $request->input('user_id'),
                         'siswa_id' => $request->input('siswa_id'),
-                        'akademik' => $total_nialai_akademik
+                        'akademik' => $total_nilai_akademik
                     ]);
                 }
-
-                
-                
 
             $response['message'] = 'success';
         }
@@ -240,16 +231,11 @@ class AkademikController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {   
+    {
         $response = array();
         $message  = array();
 
-        $bahasa_indonesia = $request->bahasa_indonesia;
-        $bahasa_inggris = $request->bahasa_inggris;
-        $matematika = $request->matematika;
-        $ipa = $request->ipa;
-
-        $total_nialai_akademik = $bahasa_indonesia + $bahasa_inggris + $matematika + $ipa;
+        $total_nilai_akademik = $this->akademik->storeNilaiAkademik($request);
 
         $akademik = $this->akademik->findOrFail($id);
 
@@ -268,8 +254,8 @@ class AkademikController extends Controller
             foreach($validator->messages()->getMessages() as $key => $error){
                         foreach($error AS $error_get) {
                             array_push($message, $error_get);
-                        }                
-                    } 
+                        }
+                    }
 
              $check_user     = $this->akademik->where('id','!=', $id)->where('user_id', $request->user_id);
              $check_siswa    = $this->akademik->where('id','!=', $id)->where('siswa_id', $request->siswa_id);
@@ -283,14 +269,14 @@ class AkademikController extends Controller
                 $akademik->bahasa_inggris    = $request->input('bahasa_inggris');
                 $akademik->matematika    = $request->input('matematika');
                 $akademik->ipa    = $request->input('ipa');
-                $akademik->save();                
+                $akademik->save();
 
                 $check_akademik = $this->nilai->where('siswa_id', $request->input('siswa_id'));
                 if($check_akademik->count() > 0){
                     $this->nilai->where('siswa_id', $request->input('siswa_id'))->update([
                         'user_id' => $request->input('user_id'),
                         'siswa_id' => $request->input('siswa_id'),
-                        'akademik' => $total_nialai_akademik
+                        'akademik' => $total_nilai_akademik
                     ]);
                 }
 
@@ -310,7 +296,7 @@ class AkademikController extends Controller
                     $this->nilai->where('siswa_id', $request->input('siswa_id'))->update([
                         'user_id' => $request->input('user_id'),
                         'siswa_id' => $request->input('siswa_id'),
-                        'akademik' => $total_nialai_akademik
+                        'akademik' => $total_nilai_akademik
                     ]);
                 }
 

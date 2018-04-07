@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Bantenprov\Nilai\Models\Bantenprov\Nilai;
 
@@ -20,17 +20,27 @@ class Akademik extends Model
         'bahasa_indonesia',
         'bahasa_inggris',
         'matematika',
-        'user_id'        
-        
+        'user_id'
+
     ];
 
     public function siswa()
     {
         return $this->belongsTo('Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa','siswa_id');
     }
-    
+
     public function user()
     {
         return $this->belongsTo('App\User','user_id');
+    }
+
+    public function storeNilaiAkademik($request)
+    {
+        $bahasa_indonesia = $request->input('bahasa_indonesia') * config('bantenprov.nilai.nilai.bahasa_indonesia');
+        $bahasa_inggris = $request->input('bahasa_inggris') * config('bantenprov.nilai.nilai.bahasa_inggris');
+        $matematika = $request->input('matematika') * config('bantenprov.nilai.nilai.matematika');
+        $ipa = $request->input('ipa') * config('bantenprov.nilai.nilai.ipa');
+
+        return $bahasa_indonesia + $bahasa_inggris + $matematika + $ipa;
     }
 }
