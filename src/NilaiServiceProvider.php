@@ -35,6 +35,7 @@ class NilaiServiceProvider extends ServiceProvider
         $this->migrationHandle();
         $this->publicHandle();
         $this->seedHandle();
+        $this->publishHandle();
     }
 
     /**
@@ -73,16 +74,18 @@ class NilaiServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function configHandle()
+    protected function configHandle($publish='')
     {
-        $packageConfigPath = __DIR__.'/config/config.php';
-        $appConfigPath     = config_path('nilai.php');
+        $packageConfigPath = __DIR__.'/config';
+        $appConfigPath     = config_path('bantenprov/nilai');
 
-        $this->mergeConfigFrom($packageConfigPath, 'nilai');
+        $this->mergeConfigFrom($packageConfigPath.'/nilai.php', 'nilai');
+        $this->mergeConfigFrom($packageConfigPath.'/akademik.php', 'akademik');
 
         $this->publishes([
-            $packageConfigPath => $appConfigPath,
-        ], 'nilai-config');
+            $packageConfigPath.'/nilai.php' => $appConfigPath.'/nilai.php',
+            $packageConfigPath.'/akademik.php' => $appConfigPath.'/akademik.php',
+        ], $publish ? $publish : 'nilai-config');
     }
 
     /**
@@ -100,7 +103,7 @@ class NilaiServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function langHandle()
+    protected function langHandle($publish='')
     {
         $packageTranslationsPath = __DIR__.'/resources/lang';
 
@@ -108,7 +111,7 @@ class NilaiServiceProvider extends ServiceProvider
 
         $this->publishes([
             $packageTranslationsPath => resource_path('lang/vendor/nilai'),
-        ], 'nilai-lang');
+        ], $publish ? $publish : 'nilai-lang');
     }
 
     /**
@@ -116,7 +119,7 @@ class NilaiServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function viewHandle()
+    protected function viewHandle($publish='')
     {
         $packageViewsPath = __DIR__.'/resources/views';
 
@@ -124,7 +127,7 @@ class NilaiServiceProvider extends ServiceProvider
 
         $this->publishes([
             $packageViewsPath => resource_path('views/vendor/nilai'),
-        ], 'nilai-views');
+        ], $publish ? $publish : 'nilai-views');
     }
 
     /**
@@ -132,13 +135,13 @@ class NilaiServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function assetHandle()
+    protected function assetHandle($publish='')
     {
         $packageAssetsPath = __DIR__.'/resources/assets';
 
         $this->publishes([
             $packageAssetsPath => resource_path('assets'),
-        ], 'nilai-assets');
+        ], $publish ? $publish : 'nilai-assets');
     }
 
     /**
@@ -146,7 +149,7 @@ class NilaiServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function migrationHandle()
+    protected function migrationHandle($publish='')
     {
         $packageMigrationsPath = __DIR__.'/database/migrations';
 
@@ -154,24 +157,36 @@ class NilaiServiceProvider extends ServiceProvider
 
         $this->publishes([
             $packageMigrationsPath => database_path('migrations')
-        ], 'nilai-migrations');
+        ], $publish ? $publish : 'nilai-migrations');
     }
 
-    public function publicHandle()
+    public function publicHandle($publish='')
     {
         $packagePublicPath = __DIR__.'/public';
 
         $this->publishes([
             $packagePublicPath => base_path('public')
-        ], 'nilai-public');
+        ], $publish ? $publish : 'nilai-public');
     }
 
-    public function seedHandle()
+    public function seedHandle($publish='')
     {
         $packageSeedPath = __DIR__.'/database/seeds';
 
         $this->publishes([
             $packageSeedPath => base_path('database/seeds')
-        ], 'nilai-seeds');
+        ], $publish ? $publish : 'nilai-seeds');
+    }
+
+    public function publishHandle()
+    {
+        $this->routeHandle('nilai-publish');
+        $this->configHandle('nilai-publish');
+        $this->langHandle('nilai-publish');
+        $this->viewHandle('nilai-publish');
+        $this->assetHandle('nilai-publish');
+        $this->migrationHandle('nilai-publish');
+        $this->publicHandle('nilai-publish');
+        $this->seedHandle('nilai-publish');
     }
 }
