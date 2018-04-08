@@ -14,7 +14,7 @@
 
     <div class="card-body">
       <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
-        
+
          <div class="form-row">
           <div class="col-md">
             <b>Nama Siswa :</b> {{ model.siswa.nama_siswa }}
@@ -85,16 +85,21 @@ export default {
       }),
 
       axios.get('api/akademik/create')
-      .then(response => {           
-          response.data.user.forEach(element => {
-            this.user.push(element);
-          });
+      .then(response => {
+          if(response.data.user_special == true){
+            response.data.user.forEach(user_element => {
+              this.user.push(user_element);
+            });
+          }else{
+            this.user.push(response.data.user);
+          }
           response.data.siswa.forEach(element => {
             this.siswa.push(element);
           });
       })
       .catch(function(response) {
         alert('Break');
+        window.location.href = '#/admin/akademik';
       })
   },
   data() {
