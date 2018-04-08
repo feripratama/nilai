@@ -90,13 +90,13 @@
         </div>
 
         <div class="form-row mt-4">
-          <div class="col-md">            
+          <div class="col-md">
             <button type="submit" class="btn btn-primary">Submit</button>
 
-            <button type="reset" class="btn btn-secondary" @click="reset">Reset</button>            
+            <button type="reset" class="btn btn-secondary" @click="reset">Reset</button>
           </div>
         </div>
-        
+
       </vue-form>
     </div>
   </div>
@@ -106,16 +106,27 @@
 export default {
   mounted(){
     axios.get('api/nilai/create')
-    .then(response => {           
+    .then(response => {
+      if (response.data.status == true) {
+        this.model.user = response.data.current_user,
+
         response.data.siswa.forEach(element => {
           this.siswa.push(element);
         });
-        response.data.user.forEach(element => {
-          this.user.push(element);
-        });
+        if(response.data.user_special == true){
+          response.data.user.forEach(user_element => {
+            this.user.push(user_element);
+          });
+        }else{
+          this.user.push(response.data.user);
+        }
+      } else {
+        alert('Failed');
+      }
     })
     .catch(function(response) {
       alert('Break');
+      window.location.href = '#/admin/nilai';
     });
   },
   data() {
@@ -172,7 +183,7 @@ export default {
         prestasi: "",
         zona: "",
         sktm: ""
-          
+
       };
     },
     back() {
