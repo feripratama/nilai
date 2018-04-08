@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Bantenprov\Nilai\Models\Bantenprov\Nilai;
 
@@ -18,11 +18,12 @@ class Nilai extends Model
     protected $fillable = [
         'user_id',
         'siswa_id',
+        'bobot',
         'akademik',
         'prestasi',
         'zona',
-        'sktm'       
-        
+        'sktm'
+
     ];
 
     public function siswa()
