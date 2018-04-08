@@ -128,7 +128,7 @@ class AkademikController extends Controller
         $total_nilai_akademik = $this->akademik->storeNilaiAkademik($request);
 
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|unique:akademiks,user_id',
+            'user_id' => 'required',
             'siswa_id' => 'required|unique:akademiks,siswa_id',
             'bahasa_indonesia' => 'required',
             'bahasa_inggris' => 'required',
@@ -137,7 +137,7 @@ class AkademikController extends Controller
         ]);
 
         if($validator->fails()){
-            $check = $akademik->where('user_id',$request->user_id)->orWhere('siswa_id',$request->siswa_id)->whereNull('deleted_at')->count();
+            $check = $akademik->where('siswa_id',$request->siswa_id)->whereNull('deleted_at')->count();
 
             if ($check > 0) {
                 $response['message'] = 'Failed ! Username, Nama Siswa, already exists';
@@ -261,7 +261,7 @@ class AkademikController extends Controller
         $akademik = $this->akademik->findOrFail($id);
 
             $validator = Validator::make($request->all(), [
-                'user_id' => 'required|unique:akademiks,user_id,'.$id,
+                'user_id' => 'required',
                 'siswa_id' => 'required|unique:akademiks,siswa_id,'.$id,
                 'bahasa_indonesia' => 'required',
                 'bahasa_inggris' => 'required',
@@ -278,10 +278,9 @@ class AkademikController extends Controller
                         }
                     }
 
-             $check_user     = $this->akademik->where('id','!=', $id)->where('user_id', $request->user_id);
              $check_siswa    = $this->akademik->where('id','!=', $id)->where('siswa_id', $request->siswa_id);
 
-             if($check_user->count() > 0 || $check_siswa->count() > 0){
+             if($check_siswa->count() > 0){
                   $response['message'] = implode("\n",$message);
             } else {
                 $akademik->user_id    = $request->input('user_id');
