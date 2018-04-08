@@ -34,12 +34,22 @@ class Akademik extends Model
         return $this->belongsTo('App\User','user_id');
     }
 
-    public function storeNilaiAkademik($request)
+    public function storeNilaiBobot($request)
     {
         $bahasa_indonesia = $request->input('bahasa_indonesia') * config('bantenprov.nilai.nilai.bahasa_indonesia');
         $bahasa_inggris = $request->input('bahasa_inggris') * config('bantenprov.nilai.nilai.bahasa_inggris');
         $matematika = $request->input('matematika') * config('bantenprov.nilai.nilai.matematika');
         $ipa = $request->input('ipa') * config('bantenprov.nilai.nilai.ipa');
+
+        return $bahasa_indonesia + $bahasa_inggris + $matematika + $ipa;
+    }
+
+    public function storeNilaiAkademik($request)
+    {
+        $bahasa_indonesia = $request->input('bahasa_indonesia');
+        $bahasa_inggris = $request->input('bahasa_inggris');
+        $matematika = $request->input('matematika');
+        $ipa = $request->input('ipa');
 
         return $bahasa_indonesia + $bahasa_inggris + $matematika + $ipa;
     }

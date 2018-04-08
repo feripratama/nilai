@@ -124,6 +124,7 @@ class AkademikController extends Controller
     {
         $akademik = $this->akademik;
 
+        $total_nilai_bobot = $this->akademik->storeNilaiBobot($request);
         $total_nilai_akademik = $this->akademik->storeNilaiAkademik($request);
 
         $validator = Validator::make($request->all(), [
@@ -155,12 +156,14 @@ class AkademikController extends Controller
                     $this->nilai->where('siswa_id', $request->input('siswa_id'))->update([
                         'user_id' => $request->input('user_id'),
                         'siswa_id' => $request->input('siswa_id'),
+                        'bobot' => $total_nilai_bobot,
                         'akademik' => $total_nilai_akademik
                     ]);
                 }else{
                     $this->nilai->create([
                         'user_id' => $request->input('user_id'),
                         'siswa_id' => $request->input('siswa_id'),
+                        'bobot' => $total_nilai_bobot,
                         'akademik' => $total_nilai_akademik
                     ]);
                 }
@@ -182,12 +185,14 @@ class AkademikController extends Controller
                     $this->nilai->where('siswa_id', $request->input('siswa_id'))->update([
                         'user_id' => $request->input('user_id'),
                         'siswa_id' => $request->input('siswa_id'),
+                        'bobot' => $total_nilai_bobot,
                         'akademik' => $total_nilai_akademik
                     ]);
                 }else{
                     $this->nilai->create([
                         'user_id' => $request->input('user_id'),
                         'siswa_id' => $request->input('siswa_id'),
+                        'bobot' => $total_nilai_bobot,
                         'akademik' => $total_nilai_akademik
                     ]);
                 }
@@ -251,7 +256,7 @@ class AkademikController extends Controller
         $response = array();
         $message  = array();
 
-        $total_nilai_akademik = $this->akademik->storeNilaiAkademik($request);
+        $total_nilai_bobot = $this->akademik->storeNilaiBobot($request);
 
         $akademik = $this->akademik->findOrFail($id);
 
@@ -292,7 +297,7 @@ class AkademikController extends Controller
                     $this->nilai->where('siswa_id', $request->input('siswa_id'))->update([
                         'user_id' => $request->input('user_id'),
                         'siswa_id' => $request->input('siswa_id'),
-                        'akademik' => $total_nilai_akademik
+                        'bobot' => $total_nilai_bobot
                     ]);
                 }
 
@@ -312,7 +317,7 @@ class AkademikController extends Controller
                     $this->nilai->where('siswa_id', $request->input('siswa_id'))->update([
                         'user_id' => $request->input('user_id'),
                         'siswa_id' => $request->input('siswa_id'),
-                        'akademik' => $total_nilai_akademik
+                        'bobot' => $total_nilai_bobot
                     ]);
                 }
 
