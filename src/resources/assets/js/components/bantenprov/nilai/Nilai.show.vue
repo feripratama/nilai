@@ -73,8 +73,8 @@ export default {
           this.model.prestasi = response.data.nilai.prestasi;
           this.model.zona = response.data.nilai.zona;
           this.model.sktm = response.data.nilai.sktm;
-          this.model.created_at = response.data.nilai.created_at;          
-          this.model.updated_at = response.data.nilai.updated_at;          
+          this.model.created_at = response.data.nilai.created_at;
+          this.model.updated_at = response.data.nilai.updated_at;
         } else {
           alert('Failed');
         }
@@ -85,16 +85,21 @@ export default {
       }),
 
       axios.get('api/nilai/create')
-      .then(response => {           
+      .then(response => {
           response.data.siswa.forEach(element => {
             this.siswa.push(element);
           });
-          response.data.user.forEach(element => {
-            this.user.push(element);
-          });
+          if(response.data.user_special == true){
+            response.data.user.forEach(user_element => {
+              this.user.push(user_element);
+            });
+          }else{
+            this.user.push(response.data.user);
+          }
       })
       .catch(function(response) {
         alert('Break');
+        window.location.href = '#/admin/nilai';
       })
   },
   data() {
