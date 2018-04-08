@@ -108,7 +108,7 @@ export default {
     axios.get('api/nilai/create')
     .then(response => {
       if (response.data.status == true) {
-        this.model.user = response.data.current_user,
+        this.model.user = response.data.current_user;
 
         response.data.siswa.forEach(element => {
           this.siswa.push(element);
