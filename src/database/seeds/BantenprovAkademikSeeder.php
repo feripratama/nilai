@@ -33,7 +33,7 @@ class BantenprovAkademikSeeder extends Seeder
     /* __construct */
     public function __construct(){
 
-        $this->model = new Bantenprov\Akademik\Models\Bantenprov\Akademik\Akademik;
+        $this->model = new Bantenprov\Nilai\Models\Bantenprov\Nilai\Akademik;
 
     }
 
