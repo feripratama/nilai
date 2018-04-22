@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Edit Nilai
+      <i class="fa fa-table" aria-hidden="true"></i> Add Nilai
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -15,13 +15,15 @@
     <div class="card-body">
       <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
 
+
+
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-            <label for="siswa_id">Nama Siswa</label>
-            <v-select name="siswa_id" v-model="model.siswa" :options="siswa" class="mb-4"></v-select>
+            <label for="nomor_un">Nama Siswa</label>
+            <v-select name="nomor_un" v-model="model.siswa" :options="siswa" class="mb-4"></v-select>
 
-            <field-messages name="siswa_id" show="$invalid && $submitted" class="text-danger">
+            <field-messages name="nomor_un" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
               <small class="form-text text-danger" slot="required">Nama Siswa is a required field</small>
             </field-messages>
@@ -73,7 +75,7 @@
           </div>
         </validate>
 
-         <div class="form-row mt-4">
+        <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
             <label for="user_id">Username</label>
@@ -81,7 +83,7 @@
 
             <field-messages name="user_id" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Username is a required field</small>
+              <small class="form-text text-danger" slot="required">username is a required field</small>
             </field-messages>
             </validate>
           </div>
@@ -102,42 +104,30 @@
 
 <script>
 export default {
-  mounted() {
-    axios.get('api/nilai/' + this.$route.params.id + '/edit')
-      .then(response => {
-        if (response.data.status == true) {
-          this.model.user = response.data.user;
-          this.model.siswa = response.data.siswa;
-          this.model.akademik  = response.data.nilai.akademik;
-          this.model.prestasi  = response.data.nilai.prestasi;
-          this.model.zona  = response.data.nilai.zona;
-          this.model.sktm  = response.data.nilai.sktm;
-        } else {
-          alert('Failed');
-        }
-      })
-      .catch(function(response) {
-        alert('Break');
-        window.location.href = '#/admin/nilai';
-      }),
+  mounted(){
+    axios.get('api/nilai/create')
+    .then(response => {
+      if (response.data.status == true) {
+        this.model.user = response.data.current_user;
 
-      axios.get('api/nilai/create')
-      .then(response => {
-          response.data.siswa.forEach(element => {
-            this.siswa.push(element);
+        response.data.siswa.forEach(element => {
+          this.siswa.push(element);
+        });
+        if(response.data.user_special == true){
+          response.data.user.forEach(user_element => {
+            this.user.push(user_element);
           });
-          if(response.data.user_special == true){
-            response.data.user.forEach(user_element => {
-              this.user.push(user_element);
-            });
-          }else{
-            this.user.push(response.data.user);
-          }
-      })
-      .catch(function(response) {
-        alert('Break');
-        window.location.href = '#/admin/nilai';
-      })
+        }else{
+          this.user.push(response.data.user);
+        }
+      } else {
+        alert('Failed');
+      }
+    })
+    .catch(function(response) {
+      alert('Break');
+      window.location.href = '#/admin/nilai';
+    });
   },
   data() {
     return {
@@ -161,13 +151,14 @@ export default {
       if (this.state.$invalid) {
         return;
       } else {
-        axios.put('api/nilai/' + this.$route.params.id, {
-            siswa_id: this.model.siswa.id,
+        axios.post('api/nilai', {
+            nomor_un: this.model.siswa.id,
             user_id: this.model.user.id,
             akademik: this.model.akademik,
             prestasi: this.model.prestasi,
             zona: this.model.zona,
-            sktm: this.model.sktm,
+            sktm: this.model.sktm
+
           })
           .then(response => {
             if (response.data.status == true) {
@@ -187,20 +178,13 @@ export default {
       }
     },
     reset() {
-      axios.get('api/nilai/' + this.$route.params.id + '/edit')
-        .then(response => {
-          if (response.data.status == true) {
-            this.model.akademik = response.data.nilai.akademik;
-            this.model.prestasi = response.data.nilai.prestasi;
-            this.model.zona = response.data.nilai.zona;
-            this.model.sktm = response.data.nilai.sktm;
-          } else {
-            alert('Failed');
-          }
-        })
-        .catch(function(response) {
-          alert('Break ');
-        });
+      this.model = {
+        akademik: "",
+        prestasi: "",
+        zona: "",
+        sktm: ""
+
+      };
     },
     back() {
       window.location = '#/admin/nilai';
