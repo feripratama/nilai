@@ -207,19 +207,19 @@ class AkademikController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Display the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Nilai  $nilai
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $akademik = $this->akademik->findOrFail($id);
+        $akademik   = $this->akademik->with(['siswa', 'user'])->findOrFail($id);
 
-        $response['user'] = $akademik->user;
-        $response['akademik'] = $akademik;
-        $response['siswa'] = $akademik->siswa;
-        $response['status'] = true;
+        $response['akademik']   = $akademik;
+        $response['error']      = false;
+        $response['message']    = 'Success';
+        $response['status']     = true;
 
         return response()->json($response);
     }
