@@ -9,8 +9,8 @@ use Bantenprov\Nilai\Facades\NilaiFacade;
 
 /* Models */
 use Bantenprov\Nilai\Models\Bantenprov\Nilai\Akademik;
-use Bantenprov\Nilai\Models\Bantenprov\Nilai\Nilai;
 use Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa;
+use Bantenprov\Nilai\Models\Bantenprov\Nilai\Nilai;
 use App\User;
 
 /* Etc */
@@ -19,27 +19,27 @@ use Validator;
 /**
  * The AkademikController class.
  *
- * @package Bantenprov\Akademik
+ * @package Bantenprov\Nilai
  * @author  bantenprov <developer.bantenprov@gmail.com>
  */
 class AkademikController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     protected $akademik;
     protected $siswa;
     protected $user;
     protected $nilai;
 
-    public function __construct(Akademik $akademik, Siswa $siswa, User $user, Nilai $nilai)
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        $this->akademik = $akademik;
-        $this->siswa = $siswa;
-        $this->user = $user;
-        $this->nilai = $nilai;
+        $this->akademik = new Akademik;
+        $this->siswa    = new Siswa;
+        $this->user     = new User;
+        $this->nilai    = new Nilai;
     }
 
     /**
@@ -60,13 +60,14 @@ class AkademikController extends Controller
         if ($request->exists('filter')) {
             $query->where(function($q) use($request) {
                 $value = "%{$request->filter}%";
-                $q->where('user_id', 'like', $value)
-                    ->orWhere('id', 'like', $value);
+
+                $q->where('nomor_un', 'like', $value);
             });
         }
 
         $perPage = request()->has('per_page') ? (int) request()->per_page : null;
-        $response = $query->with('user')->with('siswa')->paginate($perPage);
+
+        $response = $query->with(['siswa', 'user'])->paginate($perPage);
 
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
@@ -339,9 +340,13 @@ class AkademikController extends Controller
         $akademik = $this->akademik->findOrFail($id);
 
         if ($akademik->delete()) {
-            $response['status'] = true;
+            $response['message']    = 'Success';
+            $response['success']    = true;
+            $response['status']     = true;
         } else {
-            $response['status'] = false;
+            $response['message']    = 'Failed';
+            $response['success']    = false;
+            $response['status']     = false;
         }
 
         return json_encode($response);
