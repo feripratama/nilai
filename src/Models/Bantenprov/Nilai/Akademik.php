@@ -16,17 +16,16 @@ class Akademik extends Model
         'deleted_at'
     ];
     protected $fillable = [
-        'siswa_id',
+        'nomor_un',
         'bahasa_indonesia',
         'bahasa_inggris',
         'matematika',
-        'user_id'
-
+        'user_id',
     ];
 
     public function siswa()
     {
-        return $this->belongsTo('Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa','siswa_id');
+        return $this->belongsTo('Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa','nomor_un');
     }
 
     public function user()

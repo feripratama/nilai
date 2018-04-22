@@ -123,7 +123,7 @@ class NilaiController extends Controller
 
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|unique:nilais,user_id',
-            'siswa_id' => 'required|unique:nilais,siswa_id',
+            'nomor_un' => 'required|unique:nilais,nomor_un',
             'akademik' => 'required',
             'prestasi' => 'required',
             'zona' => 'required',
@@ -131,13 +131,13 @@ class NilaiController extends Controller
         ]);
 
         if($validator->fails()){
-            $check = $nilai->where('user_id',$request->user_id)->orWhere('siswa_id',$request->siswa_id)->whereNull('deleted_at')->count();
+            $check = $nilai->where('user_id',$request->user_id)->orWhere('nomor_un',$request->nomor_un)->whereNull('deleted_at')->count();
 
             if ($check > 0) {
                 $response['message'] = 'Failed ! Username, Nama Siswa, already exists';
             } else {
                 $nilai->user_id = $request->input('user_id');
-                $nilai->siswa_id = $request->input('siswa_id');
+                $nilai->nomor_un = $request->input('nomor_un');
                 $nilai->akademik = $request->input('akademik');
                 $nilai->prestasi = $request->input('prestasi');
                 $nilai->zona = $request->input('zona');
@@ -148,7 +148,7 @@ class NilaiController extends Controller
             }
         } else {
                 $nilai->user_id = $request->input('user_id');
-                $nilai->siswa_id = $request->input('siswa_id');
+                $nilai->nomor_un = $request->input('nomor_un');
                 $nilai->akademik = $request->input('akademik');
                 $nilai->prestasi = $request->input('prestasi');
                 $nilai->zona = $request->input('zona');
@@ -218,7 +218,7 @@ class NilaiController extends Controller
 
             $validator = Validator::make($request->all(), [
                 'user_id' => 'required|unique:nilais,user_id,'.$id,
-                'siswa_id' => 'required|unique:nilais,siswa_id,'.$id,
+                'nomor_un' => 'required|unique:nilais,nomor_un,'.$id,
                 'akademik' => 'required',
                 'prestasi' => 'required',
                 'zona' => 'required',
@@ -235,13 +235,13 @@ class NilaiController extends Controller
                     }
 
              $check_user     = $this->nilai->where('id','!=', $id)->where('user_id', $request->user_id);
-             $check_siswa = $this->nilai->where('id','!=', $id)->where('siswa_id', $request->siswa_id);
+             $check_siswa = $this->nilai->where('id','!=', $id)->where('nomor_un', $request->nomor_un);
 
              if($check_user->count() > 0 || $check_siswa->count() > 0 ){
                   $response['message'] = implode("\n",$message);
             } else {
                 $nilai->user_id = $request->input('user_id');
-                $nilai->siswa_id = $request->input('siswa_id');
+                $nilai->nomor_un = $request->input('nomor_un');
                 $nilai->akademik = $request->input('akademik');
                 $nilai->prestasi = $request->input('prestasi');
                 $nilai->zona = $request->input('zona');
@@ -252,7 +252,7 @@ class NilaiController extends Controller
             }
         } else {
                 $nilai->user_id = $request->input('user_id');
-                $nilai->siswa_id = $request->input('siswa_id');
+                $nilai->nomor_un = $request->input('nomor_un');
                 $nilai->akademik = $request->input('akademik');
                 $nilai->prestasi = $request->input('prestasi');
                 $nilai->zona = $request->input('zona');

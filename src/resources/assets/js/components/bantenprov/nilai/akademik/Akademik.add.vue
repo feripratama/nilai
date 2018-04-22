@@ -18,10 +18,10 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-            <label for="siswa_id">Nama Siswa</label>
-            <v-select name="siswa_id" v-model="model.siswa" :options="siswa" class="mb-4"></v-select>
+            <label for="nomor_un">Nama Siswa</label>
+            <v-select name="nomor_un" v-model="model.siswa" :options="siswa" class="mb-4"></v-select>
 
-            <field-messages name="siswa_id" show="$invalid && $submitted" class="text-danger">
+            <field-messages name="nomor_un" show="$invalid && $submitted" class="text-danger">
               <small class="form-text text-success">Looks good!</small>
               <small class="form-text text-danger" slot="required">Nama Siswa is a required field</small>
             </field-messages>
@@ -150,7 +150,7 @@ export default {
         return;
       } else {
         axios.post('api/akademik', {
-            siswa_id: this.model.siswa.id,
+            nomor_un: this.model.siswa.id,
             bahasa_inggris: this.model.bahasa_inggris,
             bahasa_indonesia: this.model.bahasa_indonesia,
             matematika: this.model.matematika,

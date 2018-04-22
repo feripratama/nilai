@@ -128,7 +128,7 @@ export default {
             label: this.model.label,
             description: this.model.description,
             old_label: this.model.old_label,
-            siswa_id: this.model.siswa.id
+            nomor_un: this.model.siswa.id
           })
           .then(response => {
             if (response.data.status == true) {
