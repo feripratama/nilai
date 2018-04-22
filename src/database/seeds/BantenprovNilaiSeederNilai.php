@@ -64,7 +64,7 @@ class BantenprovNilaiSeederNilai extends Seeder
 
             if($this->textInfo){
                 echo "============[DATA]============\n";
-                $this->orangeText('siswa : ').$this->greenText($data['siswa']);
+                $this->orangeText('nomor_un : ').$this->greenText($data['nomor_un']);
                 echo"\n";
                 $this->orangeText('akademik : ').$this->greenText($data['akademik']);
                 echo"\n";
