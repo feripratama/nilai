@@ -91,7 +91,7 @@ class AkademikController extends Controller
         $current_user   = Auth::User();
 
         foreach($siswas as $siswa){
-            array_set($siswa, 'label', $siswa->nama_siswa);
+            array_set($siswa, 'label', $siswa->nomor_un.' - '.$siswa->nama_siswa);
         }
 
         $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
@@ -204,7 +204,7 @@ class AkademikController extends Controller
         $current_user   = Auth::User();
 
         if ($akademik->siswa !== null) {
-            array_set($akademik->siswa, 'label', $akademik->siswa->nama_siswa);
+            array_set($akademik->siswa, 'label', $akademik->siswa->nomor_un.' - '.$akademik->siswa->nama_siswa);
         }
 
         $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
