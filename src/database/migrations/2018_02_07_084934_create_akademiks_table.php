@@ -14,7 +14,7 @@ class CreateAkademiksTable extends Migration
 	{
 		Schema::create('akademiks', function(Blueprint $table) {
 			$table->increments('id');
-			$table->nomor_un('nomor_un');
+			$table->string('nomor_un');
 			$table->integer('bahasa_indonesia');
 			$table->integer('bahasa_inggris');
 			$table->integer('matematika');
