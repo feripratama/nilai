@@ -15,6 +15,7 @@ use App\User;
 
 /* Etc */
 use Validator;
+use Auth;
 
 /**
  * The AkademikController class.
@@ -81,127 +82,89 @@ class AkademikController extends Controller
      */
     public function create()
     {
-        $response = [];
-
-        $siswas = $this->siswa->all();
-        $users_special = $this->user->all();
-        $users_standar = $this->user->find(\Auth::User()->id);
-        $current_user = \Auth::User();
-
-        $role_check = \Auth::User()->hasRole(['superadministrator','administrator']);
-
-        if($role_check){
-            $response['user_special'] = true;
-            foreach($users_special as $user){
-                array_set($user, 'label', $user->name);
-            }
-            $response['user'] = $users_special;
-        }else{
-            $response['user_special'] = false;
-            array_set($users_standar, 'label', $users_standar->name);
-            $response['user'] = $users_standar;
-        }
-
-        array_set($current_user, 'label', $current_user->name);
+        $user_id        = isset(Auth::User()->id) ? Auth::User()->id : null;
+        $akademik       = $this->akademik->getAttributes();
+        $siswas         = $this->siswa->getAttributes();
+        $users          = $this->user->getAttributes();
+        $users_special  = $this->user->all();
+        $users_standar  = $this->user->findOrFail($user_id);
+        $current_user   = Auth::User();
 
         foreach($siswas as $siswa){
             array_set($siswa, 'label', $siswa->nama_siswa);
         }
 
-        $response['siswa'] = $siswas;
-        $response['current_user'] = $current_user;
-        $response['status'] = true;
+        $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
+
+        if($role_check){
+            $user_special = true;
+
+            foreach($users_special as $user){
+                array_set($user, 'label', $user->name);
+            }
+
+            $users = $users_special;
+        }else{
+            $user_special = false;
+
+            array_set($users_standar, 'label', $users_standar->name);
+
+            $users = $users_standar;
+        }
+
+        array_set($current_user, 'label', $current_user->name);
+
+        $response['akademik']       = $akademik;
+        $response['siswas']         = $siswas;
+        $response['users']          = $users;
+        $response['user_special']   = $user_special;
+        $response['current_user']   = $current_user;
+        $response['error']          = false;
+        $response['message']        = 'Success';
+        $response['status']         = true;
 
         return response()->json($response);
     }
 
     /**
-     * Display the specified resource.
+     * Store a newly created resource in storage.
      *
-     * @param  \App\Nilai  $nilai
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $akademik = $this->akademik;
 
-        $total_nilai_bobot = $this->akademik->storeNilaiBobot($request);
-        $total_nilai_akademik = $this->akademik->storeNilaiAkademik($request);
-
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required',
-            'nomor_un' => 'required|unique:akademiks,nomor_un',
-            'bahasa_indonesia' => 'required',
-            'bahasa_inggris' => 'required',
-            'matematika' => 'required',
-            'ipa' => 'required'
+            'nomor_un'          => "required|exists:{$this->siswa->getTable()},nomor_un|unique:{$this->akademik->getTable()},nomor_un,NULL,id,deleted_at,NULL",
+            'bahasa_indonesia'  => 'required|numeric|min:0|max:100',
+            'bahasa_inggris'    => 'required|numeric|min:0|max:100',
+            'matematika'        => 'required|numeric|min:0|max:100',
+            'ipa'               => 'required|numeric|min:0|max:100',
+            'user_id'           => "required|exists:{$this->user->getTable()},id",
         ]);
 
-        if($validator->fails()){
-            $check = $akademik->where('nomor_un',$request->nomor_un)->whereNull('deleted_at')->count();
-
-            if ($check > 0) {
-                $response['message'] = 'Failed ! Username, Nama Siswa, already exists';
-            } else {
-                $akademik->user_id = $request->input('user_id');
-                $akademik->bahasa_indonesia = $request->input('bahasa_indonesia');
-                $akademik->nomor_un = $request->input('nomor_un');
-                $akademik->bahasa_inggris = $request->input('bahasa_inggris');
-                $akademik->matematika = $request->input('matematika');
-                $akademik->ipa = $request->input('ipa');
-                $akademik->save();
-
-
-                $check_akademik = $this->nilai->where('nomor_un', $request->input('nomor_un'));
-                if($check_akademik->count() > 0){
-                    $this->nilai->where('nomor_un', $request->input('nomor_un'))->update([
-                        'user_id' => $request->input('user_id'),
-                        'nomor_un' => $request->input('nomor_un'),
-                        'bobot' => $total_nilai_bobot,
-                        'akademik' => $total_nilai_akademik
-                    ]);
-                }else{
-                    $this->nilai->create([
-                        'user_id' => $request->input('user_id'),
-                        'nomor_un' => $request->input('nomor_un'),
-                        'bobot' => $total_nilai_bobot,
-                        'akademik' => $total_nilai_akademik
-                    ]);
-                }
-
-                $response['message'] = 'success';
-            }
+        if ($validator->fails()) {
+            $error      = true;
+            $message    = $validator->errors()->first();
         } else {
-                //$akademik->user_id = $request->input('user_id');
-                $akademik->user_id = $request->input('user_id');
-                $akademik->bahasa_indonesia = $request->input('bahasa_indonesia');
-                $akademik->nomor_un = $request->input('nomor_un');
-                $akademik->bahasa_inggris = $request->input('bahasa_inggris');
-                $akademik->matematika = $request->input('matematika');
-                $akademik->ipa = $request->input('ipa');
-                $akademik->save();
+            $akademik->nomor_un         = $request->input('nomor_un');
+            $akademik->bahasa_indonesia = $request->input('bahasa_indonesia');
+            $akademik->bahasa_inggris   = $request->input('bahasa_inggris');
+            $akademik->matematika       = $request->input('matematika');
+            $akademik->ipa              = $request->input('ipa');
+            $akademik->user_id          = $request->input('user_id');
+            $akademik->save();
 
-                $check_akademik = $this->nilai->where('nomor_un', $request->input('nomor_un'));
-                if($check_akademik->count() > 0){
-                    $this->nilai->where('nomor_un', $request->input('nomor_un'))->update([
-                        'user_id' => $request->input('user_id'),
-                        'nomor_un' => $request->input('nomor_un'),
-                        'bobot' => $total_nilai_bobot,
-                        'akademik' => $total_nilai_akademik
-                    ]);
-                }else{
-                    $this->nilai->create([
-                        'user_id' => $request->input('user_id'),
-                        'nomor_un' => $request->input('nomor_un'),
-                        'bobot' => $total_nilai_bobot,
-                        'akademik' => $total_nilai_akademik
-                    ]);
-                }
-
-            $response['message'] = 'success';
+            $error      = false;
+            $message    = 'Success';
         }
 
-        $response['status'] = true;
+        $response['akademik']       = $akademik;
+        $response['error']      = $error;
+        $response['message']    = $message;
+        $response['status']     = true;
 
         return response()->json($response);
     }
