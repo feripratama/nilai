@@ -96,7 +96,7 @@ class AkademikController extends Controller
 
         $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
 
-        if($role_check){
+        if ($role_check) {
             $user_special = true;
 
             foreach($users_special as $user){
@@ -104,7 +104,7 @@ class AkademikController extends Controller
             }
 
             $users = $users_special;
-        }else{
+        } else {
             $user_special = false;
 
             array_set($users_standar, 'label', $users_standar->name);
@@ -213,7 +213,7 @@ class AkademikController extends Controller
             array_set($akademik->user, 'label', $akademik->user->name);
         }
 
-        if($role_check){
+        if ($role_check) {
             $user_special = true;
 
             foreach($users_special as $user){
@@ -221,7 +221,7 @@ class AkademikController extends Controller
             }
 
             $users = $users_special;
-        }else{
+        } else {
             $user_special = false;
 
             array_set($users_standar, 'label', $users_standar->name);
