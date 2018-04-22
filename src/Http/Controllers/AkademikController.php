@@ -255,7 +255,7 @@ class AkademikController extends Controller
         $akademik   = $this->akademik->with(['siswa', 'user'])->findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'nomor_un'          => "required|exists:{$this->siswa->getTable()},nomor_un|unique:{$this->akademik->getTable()},nomor_un,{$id},id,deleted_at,NULL",
+            // 'nomor_un'          => "required|exists:{$this->siswa->getTable()},nomor_un|unique:{$this->akademik->getTable()},nomor_un,{$id},id,deleted_at,NULL",
             'bahasa_indonesia'  => 'required|numeric|min:0|max:100',
             'bahasa_inggris'    => 'required|numeric|min:0|max:100',
             'matematika'        => 'required|numeric|min:0|max:100',
@@ -267,7 +267,7 @@ class AkademikController extends Controller
             $error      = true;
             $message    = $validator->errors()->first();
         } else {
-            $akademik->nomor_un         = $request->input('nomor_un');
+            $akademik->nomor_un         = $akademik->nomor_un; // $request->input('nomor_un');
             $akademik->bahasa_indonesia = $request->input('bahasa_indonesia');
             $akademik->bahasa_inggris   = $request->input('bahasa_inggris');
             $akademik->matematika       = $request->input('matematika');
