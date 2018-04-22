@@ -107,19 +107,19 @@ export default {
         },
         {
           name: 'bahasa_indonesia',
-          title: 'B. Indonesia',
+          title: 'B.Ind',
           sortField: 'bahasa_indonesia',
           titleClass: 'center aligned'
         },
         {
           name: 'bahasa_inggris',
-          title: 'B. Inggris',
+          title: 'B.Ing',
           sortField: 'bahasa_inggris',
           titleClass: 'center aligned'
         },
         {
           name: 'matematika',
-          title: 'Matematika',
+          title: 'MTK',
           sortField: 'matematika',
           titleClass: 'center aligned'
         },
