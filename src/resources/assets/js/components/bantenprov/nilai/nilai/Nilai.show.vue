@@ -28,16 +28,16 @@
           <dd class="col-8">{{ model.akademik }}</dd>
 
           <dt class="col-4">- B. Indonesia</dt>
-          <dd class="col-8">{{ model.nilaiakademik.bahasa_indonesia }}</dd>
+          <dd class="col-8">{{ model.nilai_akademik.bahasa_indonesia }}</dd>
 
           <dt class="col-4">- B. Inggris</dt>
-          <dd class="col-8">{{ model.nilaiakademik.bahasa_inggris }}</dd>
+          <dd class="col-8">{{ model.nilai_akademik.bahasa_inggris }}</dd>
 
           <dt class="col-4">- Matematika</dt>
-          <dd class="col-8">{{ model.nilaiakademik.matematika }}</dd>
+          <dd class="col-8">{{ model.nilai_akademik.matematika }}</dd>
 
           <dt class="col-4">- IPA</dt>
-          <dd class="col-8">{{ model.nilaiakademik.ipa }}</dd>
+          <dd class="col-8">{{ model.nilai_akademik.ipa }}</dd>
 
           <dt class="col-4">Prestasi</dt>
           <dd class="col-8">{{ model.prestasi }}</dd>
@@ -89,7 +89,7 @@ export default {
 
         siswa         : [],
         user          : [],
-        nilaiakademik : [],
+        nilai_akademik : [],
       },
     }
   },
@@ -112,7 +112,7 @@ export default {
 
           this.model.siswa          = response.data.nilai.siswa;
           this.model.user           = response.data.nilai.user;
-          this.model.nilaiakademik  = response.data.nilai.nilaiakademik;
+          this.model.nilai_akademik  = response.data.nilai.nilai_akademik;
 
           if (this.model.siswa === null) {
             this.model.siswa = {'id':this.model.nomor_un, 'nama_siswa':''};
@@ -122,8 +122,8 @@ export default {
             this.model.user = {'id':this.model.user_id, 'name':''};
           }
 
-          if (this.model.nilaiakademik === null) {
-            this.model.nilaiakademik = {
+          if (this.model.nilai_akademik === null) {
+            this.model.nilai_akademik = {
               'id'                : this.model.nomor_un,
               'bahasa_indonesia'  : '',
               'bahasa_inggris'    : '',

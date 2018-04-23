@@ -37,7 +37,7 @@
 
               <field-messages name="bobot" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">Bobot is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -51,7 +51,7 @@
 
               <field-messages name="akademik" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">Akademik is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -65,7 +65,7 @@
 
               <field-messages name="prestasi" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">Prestasi is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -79,7 +79,7 @@
 
               <field-messages name="zona" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">Zona is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -93,7 +93,7 @@
 
               <field-messages name="sktm" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">SKTM is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -107,7 +107,7 @@
 
               <field-messages name="total" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">Total is a required field</small>
               </field-messages>
             </validate>
           </div>

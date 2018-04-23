@@ -46,7 +46,7 @@ class Nilai extends Model
         return $this->belongsTo('App\User','user_id');
     }
 
-    public function nilaiAkademik()
+    public function nilai_akademik()
     {
         return $this->belongsTo('Bantenprov\Nilai\Models\Bantenprov\Nilai\Akademik','nomor_un','nomor_un');
     }

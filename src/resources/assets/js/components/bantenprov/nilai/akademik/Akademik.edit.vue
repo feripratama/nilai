@@ -37,7 +37,7 @@
 
               <field-messages name="bahasa_indonesia" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">B. Indonesia is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -51,7 +51,7 @@
 
               <field-messages name="bahasa_inggris" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">B. Inggris is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -65,7 +65,7 @@
 
               <field-messages name="matematika" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">Matematika is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -79,7 +79,7 @@
 
               <field-messages name="ipa" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Label is a required field</small>
+                <small class="form-text text-danger" slot="required">IPA is a required field</small>
               </field-messages>
             </validate>
           </div>
