@@ -99,6 +99,20 @@
           </div>
         </div>
 
+        <!-- <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+              <label for="total">Total</label>
+              <input type="text" class="form-control" name="total" v-model="model.total" placeholder="Total" required>
+
+              <field-messages name="total" show="$invalid && $submitted" class="text-danger">
+                <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">Label is a required field</small>
+              </field-messages>
+            </validate>
+          </div>
+        </div> -->
+
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
@@ -140,6 +154,7 @@ export default {
         prestasi    : '',
         zona        : '',
         sktm        : '',
+        total       : '',
         user_id     : '',
         created_at  : '',
         updated_at  : '',
@@ -163,6 +178,7 @@ export default {
           this.model.prestasi = response.data.nilai.prestasi;
           this.model.zona     = response.data.nilai.zona;
           this.model.sktm     = response.data.nilai.sktm;
+          this.model.total    = response.data.nilai.total;
           this.model.user_id  = response.data.nilai.user_id;
 
           this.model.siswa = response.data.nilai.siswa;
@@ -238,6 +254,7 @@ export default {
             prestasi  : this.model.prestasi,
             zona      : this.model.zona,
             sktm      : this.model.sktm,
+            total     : this.model.total,
             user_id   : this.model.user.id,
           })
           .then(response => {
@@ -286,6 +303,7 @@ export default {
         prestasi    : '',
         zona        : '',
         sktm        : '',
+        total       : '',
         user_id     : '',
         created_at  : '',
         updated_at  : '',

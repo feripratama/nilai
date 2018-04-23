@@ -47,6 +47,9 @@
 
           <dt class="col-4">SKTM</dt>
           <dd class="col-8">{{ model.sktm }}</dd>
+
+          <dt class="col-4">Total</dt>
+          <dd class="col-8">{{ model.total }}</dd>
       </dl>
     </div>
 
@@ -79,6 +82,7 @@ export default {
         prestasi      : '',
         zona          : '',
         sktm          : '',
+        total         : '',
         user_id       : '',
         created_at    : '',
         updated_at    : '',
@@ -101,6 +105,7 @@ export default {
           this.model.prestasi       = response.data.nilai.prestasi;
           this.model.zona           = response.data.nilai.zona;
           this.model.sktm           = response.data.nilai.sktm;
+          this.model.total          = response.data.nilai.total;
           this.model.user_id        = response.data.nilai.user_id;
           this.model.created_at     = response.data.nilai.created_at;
           this.model.updated_at     = response.data.nilai.updated_at;

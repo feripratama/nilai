@@ -131,6 +131,12 @@ export default {
           titleClass: 'center aligned'
         },
         {
+          name: 'total',
+          title: 'Total',
+          sortField: 'total',
+          titleClass: 'center aligned'
+        },
+        {
           name: '__slot:actions',
           title: 'Actions',
           titleClass: 'center aligned',

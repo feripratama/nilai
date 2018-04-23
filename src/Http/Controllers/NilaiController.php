@@ -164,7 +164,8 @@ class NilaiController extends Controller
             'akademik'  => 'required|numeric|min:0|max:100',
             'prestasi'  => 'required|numeric|min:0|max:100',
             'zona'      => 'required|numeric|min:0|max:100',
-            'sktm'      => 'required|numeric|min:0|max:100',
+            'sktm'     => 'required|numeric|min:0|max:100',
+            // 'total'      => 'required|numeric|min:0|max:100',
             'user_id'   => "required|exists:{$this->user->getTable()},id",
         ]);
 
@@ -178,6 +179,7 @@ class NilaiController extends Controller
             $nilai->prestasi    = $request->input('prestasi');
             $nilai->zona        = $request->input('zona');
             $nilai->sktm        = $request->input('sktm');
+            $nilai->total       = null; // $request->input('total');
             $nilai->user_id     = $request->input('user_id');
             $nilai->save();
 
@@ -285,6 +287,7 @@ class NilaiController extends Controller
             'prestasi'  => 'required|numeric|min:0|max:100',
             'zona'      => 'required|numeric|min:0|max:100',
             'sktm'      => 'required|numeric|min:0|max:100',
+            // 'total'     => 'required|numeric|min:0|max:100',
             'user_id'   => "required|exists:{$this->user->getTable()},id",
         ]);
 
@@ -298,6 +301,7 @@ class NilaiController extends Controller
             $nilai->prestasi    = $request->input('prestasi');
             $nilai->zona        = $request->input('zona');
             $nilai->sktm        = $request->input('sktm');
+            $nilai->total       = null; // $request->input('total');
             $nilai->user_id     = $request->input('user_id');
             $nilai->save();
 
