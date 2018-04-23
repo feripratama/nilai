@@ -26,7 +26,7 @@ class Nilai extends Model
         'user_id',
     ];
 
-    public function setTotalAttribute()
+    public function setTotalAttribute($value)
     {
         $nilai[]    = $this->akademik;
         $nilai[]    = $this->prestasi;
