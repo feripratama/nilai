@@ -66,9 +66,9 @@ class AkademikController extends Controller
             });
         }
 
-        $perPage = request()->has('per_page') ? (int) request()->per_page : null;
+        $perPage    = request()->has('per_page') ? (int) request()->per_page : null;
 
-        $response = $query->with(['siswa', 'user'])->paginate($perPage);
+        $response   = $query->with(['siswa', 'user'])->paginate($perPage);
 
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
