@@ -104,36 +104,46 @@ class NilaiController extends Controller
      */
     public function create()
     {
-        $response = [];
+        $user_id        = isset(Auth::User()->id) ? Auth::User()->id : null;
+        $nilai          = $this->nilai->getAttributes();
+        $siswas         = $this->siswa->getAttributes();
+        $users          = $this->user->getAttributes();
+        $users_special  = $this->user->all();
+        $users_standar  = $this->user->findOrFail($user_id);
+        $current_user   = Auth::User();
 
-        $siswas = $this->siswa->all();
-        $users_special = $this->user->all();
-        $users_standar = $this->user->find(\Auth::User()->id);
-        $current_user = \Auth::User();
+        foreach ($siswas as $siswa) {
+            array_set($siswa, 'label', $siswa->nomor_un.' - '.$siswa->nama_siswa);
+        }
 
-        $role_check = \Auth::User()->hasRole(['superadministrator','administrator']);
+        $role_check = Auth::User()->hasRole(['superadministrator','administrator']);
 
-        if($role_check){
-            $response['user_special'] = true;
+        if ($role_check) {
+            $user_special = true;
+
             foreach($users_special as $user){
                 array_set($user, 'label', $user->name);
             }
-            $response['user'] = $users_special;
-        }else{
-            $response['user_special'] = false;
+
+            $users = $users_special;
+        } else {
+            $user_special = false;
+
             array_set($users_standar, 'label', $users_standar->name);
-            $response['user'] = $users_standar;
+
+            $users = $users_standar;
         }
 
         array_set($current_user, 'label', $current_user->name);
 
-        foreach($siswas as $siswa){
-            array_set($siswa, 'label', $siswa->nama_siswa);
-        }
-
-        $response['siswa'] = $siswas;
-        $response['current_user'] = $current_user;
-        $response['status'] = true;
+        $response['nilai']          = $nilai;
+        $response['siswas']         = $siswas;
+        $response['users']          = $users;
+        $response['user_special']   = $user_special;
+        $response['current_user']   = $current_user;
+        $response['error']          = false;
+        $response['message']        = 'Success';
+        $response['status']         = true;
 
         return response()->json($response);
     }
@@ -149,43 +159,36 @@ class NilaiController extends Controller
         $nilai = $this->nilai;
 
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|unique:nilais,user_id',
-            'nomor_un' => 'required|unique:nilais,nomor_un',
-            'nilai' => 'required',
-            'prestasi' => 'required',
-            'zona' => 'required',
-            'sktm' => 'required'
+            'nomor_un'  => "required|exists:{$this->siswa->getTable()},nomor_un|unique:{$this->nilai->getTable()},nomor_un,NULL,id,deleted_at,NULL",
+            'bobot'     => 'required|numeric|min:0|max:100',
+            'akademik'  => 'required|numeric|min:0|max:100',
+            'prestasi'  => 'required|numeric|min:0|max:100',
+            'zona'      => 'required|numeric|min:0|max:100',
+            'sktm'      => 'required|numeric|min:0|max:100',
+            'user_id'   => "required|exists:{$this->user->getTable()},id",
         ]);
 
-        if($validator->fails()){
-            $check = $nilai->where('user_id',$request->user_id)->orWhere('nomor_un',$request->nomor_un)->whereNull('deleted_at')->count();
-
-            if ($check > 0) {
-                $response['message'] = 'Failed ! Username, Nama Siswa, already exists';
-            } else {
-                $nilai->user_id = $request->input('user_id');
-                $nilai->nomor_un = $request->input('nomor_un');
-                $nilai->nilai = $request->input('nilai');
-                $nilai->prestasi = $request->input('prestasi');
-                $nilai->zona = $request->input('zona');
-                $nilai->sktm = $request->input('sktm');
-                $nilai->save();
-
-                $response['message'] = 'success';
-            }
+        if ($validator->fails()) {
+            $error      = true;
+            $message    = $validator->errors()->first();
         } else {
-                $nilai->user_id = $request->input('user_id');
-                $nilai->nomor_un = $request->input('nomor_un');
-                $nilai->nilai = $request->input('nilai');
-                $nilai->prestasi = $request->input('prestasi');
-                $nilai->zona = $request->input('zona');
-                $nilai->sktm = $request->input('sktm');
-                $nilai->save();
+            $nilai->nomor_un    = $request->input('nomor_un');
+            $nilai->bobot       = $request->input('bobot');
+            $nilai->akademik    = $request->input('akademik');
+            $nilai->prestasi    = $request->input('prestasi');
+            $nilai->zona        = $request->input('zona');
+            $nilai->sktm        = $request->input('sktm');
+            $nilai->user_id     = $request->input('user_id');
+            $nilai->save();
 
-            $response['message'] = 'success';
+            $error      = false;
+            $message    = 'Success';
         }
 
-        $response['status'] = true;
+        $response['nilai']      = $nilai;
+        $response['error']      = $error;
+        $response['message']    = $message;
+        $response['status']     = true;
 
         return response()->json($response);
     }
