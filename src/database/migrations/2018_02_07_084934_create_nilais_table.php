@@ -15,6 +15,7 @@ class CreateNilaisTable extends Migration
 		Schema::create('nilais', function(Blueprint $table) {
 			$table->increments('id');
 			$table->string('nomor_un');
+			$table->integer('kegiatan_id');
 			$table->decimal('bobot')->nullable();
 			$table->decimal('akademik')->nullable();
 			$table->decimal('prestasi')->nullable();
