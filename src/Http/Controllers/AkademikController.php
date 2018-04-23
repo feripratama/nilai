@@ -277,7 +277,7 @@ class AkademikController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $akademik   = $this->akademik->with(['siswa', 'user'])->findOrFail($id);
+        $akademik = $this->akademik->with(['siswa', 'user'])->findOrFail($id);
 
         $validator = Validator::make($request->all(), [
             // 'nomor_un'          => "required|exists:{$this->siswa->getTable()},nomor_un|unique:{$this->akademik->getTable()},nomor_un,{$id},id,deleted_at,NULL",
