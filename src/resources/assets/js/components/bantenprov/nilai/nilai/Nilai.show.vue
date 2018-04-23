@@ -21,13 +21,25 @@
           <dt class="col-4">Nama Siswa</dt>
           <dd class="col-8">{{ model.siswa.nama_siswa }}</dd>
 
-          <dt class="col-4">B. Indonesia</dt>
+          <dt class="col-4">Bobot</dt>
           <dd class="col-8">{{ model.bobot }}</dd>
 
-          <dt class="col-4">B. Inggris</dt>
+          <dt class="col-4">Akademik</dt>
           <dd class="col-8">{{ model.akademik }}</dd>
 
-          <dt class="col-4">Matematika</dt>
+          <dt class="col-4">- B. Indonesia</dt>
+          <dd class="col-8">{{ model.nilaiakademik.bahasa_indonesia }}</dd>
+
+          <dt class="col-4">- B. Inggris</dt>
+          <dd class="col-8">{{ model.nilaiakademik.bahasa_inggris }}</dd>
+
+          <dt class="col-4">- Matematika</dt>
+          <dd class="col-8">{{ model.nilaiakademik.matematika }}</dd>
+
+          <dt class="col-4">- IPA</dt>
+          <dd class="col-8">{{ model.nilaiakademik.ipa }}</dd>
+
+          <dt class="col-4">Prestasi</dt>
           <dd class="col-8">{{ model.prestasi }}</dd>
 
           <dt class="col-4">Zona</dt>
@@ -61,18 +73,19 @@ export default {
       state: {},
       title: 'View Nilai',
       model: {
-        nomor_un    : '',
-        bobot       : '',
-        akademik    : '',
-        prestasi    : '',
-        zona        : '',
-        sktm        : '',
-        user_id     : '',
-        created_at  : '',
-        updated_at  : '',
+        nomor_un      : '',
+        bobot         : '',
+        akademik      : '',
+        prestasi      : '',
+        zona          : '',
+        sktm          : '',
+        user_id       : '',
+        created_at    : '',
+        updated_at    : '',
 
-        siswa       : [],
-        user        : [],
+        siswa         : [],
+        user          : [],
+        nilaiakademik : [],
       },
     }
   },
@@ -82,18 +95,19 @@ export default {
     axios.get('api/nilai/'+this.$route.params.id)
       .then(response => {
         if (response.data.status == true && response.data.error == false) {
-          this.model.nomor_un   = response.data.nilai.nomor_un;
-          this.model.bobot      = response.data.nilai.bobot;
-          this.model.akademik   = response.data.nilai.akademik;
-          this.model.prestasi   = response.data.nilai.prestasi;
-          this.model.zona       = response.data.nilai.zona;
-          this.model.sktm       = response.data.nilai.sktm;
-          this.model.user_id    = response.data.nilai.user_id;
-          this.model.created_at = response.data.nilai.created_at;
-          this.model.updated_at = response.data.nilai.updated_at;
+          this.model.nomor_un       = response.data.nilai.nomor_un;
+          this.model.bobot          = response.data.nilai.bobot;
+          this.model.akademik       = response.data.nilai.akademik;
+          this.model.prestasi       = response.data.nilai.prestasi;
+          this.model.zona           = response.data.nilai.zona;
+          this.model.sktm           = response.data.nilai.sktm;
+          this.model.user_id        = response.data.nilai.user_id;
+          this.model.created_at     = response.data.nilai.created_at;
+          this.model.updated_at     = response.data.nilai.updated_at;
 
-          this.model.siswa      = response.data.nilai.siswa;
-          this.model.user       = response.data.nilai.user;
+          this.model.siswa          = response.data.nilai.siswa;
+          this.model.user           = response.data.nilai.user;
+          this.model.nilaiakademik  = response.data.nilai.nilaiakademik;
 
           if (this.model.siswa === null) {
             this.model.siswa = {'id':this.model.nomor_un, 'nama_siswa':''};
@@ -101,6 +115,16 @@ export default {
 
           if (this.model.user === null) {
             this.model.user = {'id':this.model.user_id, 'name':''};
+          }
+
+          if (this.model.nilaiakademik === null) {
+            this.model.nilaiakademik = {
+              'id'                : this.model.nomor_un,
+              'bahasa_indonesia'  : '',
+              'bahasa_inggris'    : '',
+              'matematika'        : '',
+              'ipa'               : '',
+            };
           }
         } else {
           swal(

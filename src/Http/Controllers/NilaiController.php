@@ -65,7 +65,7 @@ class NilaiController extends Controller
 
         $perPage    = request()->has('per_page') ? (int) request()->per_page : null;
 
-        $response   = $query->with(['siswa', 'user'])->paginate($perPage);
+        $response   = $query->with(['siswa', 'user', 'nilaiakademik'])->paginate($perPage);
 
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
@@ -79,7 +79,7 @@ class NilaiController extends Controller
      */
     public function get()
     {
-        $nilais = $this->nilai->with(['siswa', 'user'])->get();
+        $nilais = $this->nilai->with(['siswa', 'user', 'nilaiakademik'])->get();
 
         foreach ($nilais as $nilai) {
             if ($nilai->siswa !== null) {
@@ -198,7 +198,7 @@ class NilaiController extends Controller
      */
     public function show($id)
     {
-        $nilai = $this->nilai->with(['siswa', 'user'])->findOrFail($id);
+        $nilai = $this->nilai->with(['siswa', 'user', 'nilaiakademik'])->findOrFail($id);
 
         $response['nilai']      = $nilai;
         $response['error']      = false;
