@@ -14,6 +14,7 @@ use App\User;
 
 /* Etc */
 use Validator;
+use Auth;
 
 /**
  * The NilaiController class.
@@ -23,20 +24,20 @@ use Validator;
  */
 class NilaiController extends Controller
 {
+    protected $siswa;
+    protected $nilai;
+    protected $user;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    protected $siswa;
-    protected $nilai;
-    protected $user;
-
     public function __construct(Nilai $nilai, Siswa $siswa, User $user)
     {
-        $this->nilai = $nilai;
-        $this->siswa = $siswa;
-        $this->user = $user;
+        $this->nilai    = new Nilai;
+        $this->siswa    = new Siswa;
+        $this->user     = new User;
     }
 
     /**
@@ -57,13 +58,14 @@ class NilaiController extends Controller
         if ($request->exists('filter')) {
             $query->where(function($q) use($request) {
                 $value = "%{$request->filter}%";
-                $q->where('user_id', 'like', $value)
-                    ->orWhere('id', 'like', $value);
+
+                $q->where('nomor_un', 'like', $value);
             });
         }
 
-        $perPage = request()->has('per_page') ? (int) request()->per_page : null;
-        $response = $query->with('user')->with('siswa')->paginate($perPage);
+        $perPage    = request()->has('per_page') ? (int) request()->per_page : null;
+
+        $response   = $query->with(['siswa', 'user'])->paginate($perPage);
 
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
@@ -112,9 +114,9 @@ class NilaiController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Store a newly created resource in storage.
      *
-     * @param  \App\Nilai  $nilai
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -124,7 +126,7 @@ class NilaiController extends Controller
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|unique:nilais,user_id',
             'nomor_un' => 'required|unique:nilais,nomor_un',
-            'akademik' => 'required',
+            'nilai' => 'required',
             'prestasi' => 'required',
             'zona' => 'required',
             'sktm' => 'required'
@@ -138,7 +140,7 @@ class NilaiController extends Controller
             } else {
                 $nilai->user_id = $request->input('user_id');
                 $nilai->nomor_un = $request->input('nomor_un');
-                $nilai->akademik = $request->input('akademik');
+                $nilai->nilai = $request->input('nilai');
                 $nilai->prestasi = $request->input('prestasi');
                 $nilai->zona = $request->input('zona');
                 $nilai->sktm = $request->input('sktm');
@@ -149,7 +151,7 @@ class NilaiController extends Controller
         } else {
                 $nilai->user_id = $request->input('user_id');
                 $nilai->nomor_un = $request->input('nomor_un');
-                $nilai->akademik = $request->input('akademik');
+                $nilai->nilai = $request->input('nilai');
                 $nilai->prestasi = $request->input('prestasi');
                 $nilai->zona = $request->input('zona');
                 $nilai->sktm = $request->input('sktm');
@@ -164,19 +166,19 @@ class NilaiController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Display the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Nilai  $nilai
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $nilai = $this->nilai->findOrFail($id);
+        $akademik   = $this->akademik->with(['siswa', 'user'])->findOrFail($id);
 
-        $response['user'] = $nilai->user;
-        $response['nilai'] = $nilai;
-        $response['siswa'] = $nilai->siswa;
-        $response['status'] = true;
+        $response['akademik']   = $akademik;
+        $response['error']      = false;
+        $response['message']    = 'Success';
+        $response['status']     = true;
 
         return response()->json($response);
     }
@@ -219,7 +221,7 @@ class NilaiController extends Controller
             $validator = Validator::make($request->all(), [
                 'user_id' => 'required|unique:nilais,user_id,'.$id,
                 'nomor_un' => 'required|unique:nilais,nomor_un,'.$id,
-                'akademik' => 'required',
+                'nilai' => 'required',
                 'prestasi' => 'required',
                 'zona' => 'required',
                 'sktm' => 'required'
@@ -242,7 +244,7 @@ class NilaiController extends Controller
             } else {
                 $nilai->user_id = $request->input('user_id');
                 $nilai->nomor_un = $request->input('nomor_un');
-                $nilai->akademik = $request->input('akademik');
+                $nilai->nilai = $request->input('nilai');
                 $nilai->prestasi = $request->input('prestasi');
                 $nilai->zona = $request->input('zona');
                 $nilai->sktm = $request->input('sktm');
@@ -253,7 +255,7 @@ class NilaiController extends Controller
         } else {
                 $nilai->user_id = $request->input('user_id');
                 $nilai->nomor_un = $request->input('nomor_un');
-                $nilai->akademik = $request->input('akademik');
+                $nilai->nilai = $request->input('nilai');
                 $nilai->prestasi = $request->input('prestasi');
                 $nilai->zona = $request->input('zona');
                 $nilai->sktm = $request->input('sktm');
@@ -278,9 +280,13 @@ class NilaiController extends Controller
         $nilai = $this->nilai->findOrFail($id);
 
         if ($nilai->delete()) {
-            $response['status'] = true;
+            $response['message']    = 'Success';
+            $response['success']    = true;
+            $response['status']     = true;
         } else {
-            $response['status'] = false;
+            $response['message']    = 'Failed';
+            $response['success']    = false;
+            $response['status']     = false;
         }
 
         return json_encode($response);
