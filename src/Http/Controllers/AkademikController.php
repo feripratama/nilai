@@ -5,13 +5,14 @@ namespace Bantenprov\Nilai\Http\Controllers;
 /* Require */
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Bantenprov\Nilai\Facades\NilaiFacade;
 
 /* Models */
 use Bantenprov\Nilai\Models\Bantenprov\Nilai\Akademik;
 use Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa;
-use Bantenprov\Nilai\Models\Bantenprov\Nilai\Nilai;
 use App\User;
+use Bantenprov\Nilai\Models\Bantenprov\Nilai\Nilai;
 
 /* Etc */
 use Validator;
@@ -66,13 +67,38 @@ class AkademikController extends Controller
             });
         }
 
-        $perPage = request()->has('per_page') ? (int) request()->per_page : null;
+        $perPage    = request()->has('per_page') ? (int) request()->per_page : null;
 
-        $response = $query->with(['siswa', 'user'])->paginate($perPage);
+        $response   = $query->with(['siswa', 'user'])->paginate($perPage);
 
         return response()->json($response)
             ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', 'GET');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function get()
+    {
+        $akademiks = $this->akademik->with(['siswa', 'user'])->get();
+
+        foreach ($akademiks as $akademik) {
+            if ($akademik->siswa !== null) {
+                array_set($akademik, 'label', $akademik->siswa->nomor_un.' - '.$akademik->siswa->nama_siswa);
+            } else {
+                array_set($akademik, 'label', $akademik->nomor_un.' - ');
+            }
+        }
+
+        $response['akademiks']  = $akademiks;
+        $response['error']      = false;
+        $response['message']    = 'Success';
+        $response['status']     = true;
+
+        return response()->json($response);
     }
 
     /**
@@ -90,7 +116,7 @@ class AkademikController extends Controller
         $users_standar  = $this->user->findOrFail($user_id);
         $current_user   = Auth::User();
 
-        foreach($siswas as $siswa){
+        foreach ($siswas as $siswa) {
             array_set($siswa, 'label', $siswa->nomor_un.' - '.$siswa->nama_siswa);
         }
 
@@ -155,10 +181,34 @@ class AkademikController extends Controller
             $akademik->matematika       = $request->input('matematika');
             $akademik->ipa              = $request->input('ipa');
             $akademik->user_id          = $request->input('user_id');
-            $akademik->save();
 
-            $error      = false;
-            $message    = 'Success';
+            $nilai = $this->nilai->updateOrCreate(
+                [
+                    'nomor_un'  => $akademik->nomor_un,
+                ],
+                [
+                    'nomor_un'  => $akademik->nomor_un,
+                    'bobot'     => $akademik->calcNilaiBobot($request),
+                    'akademik'  => $akademik->calcNilaiAkademik($request),
+                    'total'     => null,
+                    'user_id'   => $akademik->user_id,
+                ]
+            );
+
+            DB::beginTransaction();
+
+            if ($akademik->save() && $nilai->save())
+            {
+                DB::commit();
+
+                $error      = false;
+                $message    = 'Success';
+            } else {
+                DB::rollBack();
+
+                $error      = true;
+                $message    = 'Failed';
+            }
         }
 
         $response['akademik']   = $akademik;
@@ -177,7 +227,7 @@ class AkademikController extends Controller
      */
     public function show($id)
     {
-        $akademik   = $this->akademik->with(['siswa', 'user'])->findOrFail($id);
+        $akademik = $this->akademik->with(['siswa', 'user'])->findOrFail($id);
 
         $response['akademik']   = $akademik;
         $response['error']      = false;
@@ -252,7 +302,7 @@ class AkademikController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $akademik   = $this->akademik->with(['siswa', 'user'])->findOrFail($id);
+        $akademik = $this->akademik->with(['siswa', 'user'])->findOrFail($id);
 
         $validator = Validator::make($request->all(), [
             // 'nomor_un'          => "required|exists:{$this->siswa->getTable()},nomor_un|unique:{$this->akademik->getTable()},nomor_un,{$id},id,deleted_at,NULL",
@@ -273,10 +323,34 @@ class AkademikController extends Controller
             $akademik->matematika       = $request->input('matematika');
             $akademik->ipa              = $request->input('ipa');
             $akademik->user_id          = $request->input('user_id');
-            $akademik->save();
 
-            $error      = false;
-            $message    = 'Success';
+            $nilai = $this->nilai->updateOrCreate(
+                [
+                    'nomor_un'  => $akademik->nomor_un,
+                ],
+                [
+                    'nomor_un'  => $akademik->nomor_un,
+                    'bobot'     => $akademik->calcNilaiBobot($request),
+                    'akademik'  => $akademik->calcNilaiAkademik($request),
+                    'total'     => null,
+                    'user_id'   => $akademik->user_id,
+                ]
+            );
+
+            DB::beginTransaction();
+
+            if ($akademik->save() && $nilai->save())
+            {
+                DB::commit();
+
+                $error      = false;
+                $message    = 'Success';
+            } else {
+                DB::rollBack();
+
+                $error      = true;
+                $message    = 'Failed';
+            }
         }
 
         $response['akademik']   = $akademik;

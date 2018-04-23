@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Add Nilai
+      <i class="fa fa-table" aria-hidden="true"></i> {{ title }}
 
       <ul class="nav nav-pills card-header-pills pull-right">
         <li class="nav-item">
@@ -14,77 +14,114 @@
 
     <div class="card-body">
       <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
-
-
-
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-            <label for="nomor_un">Nama Siswa</label>
-            <v-select name="nomor_un" v-model="model.siswa" :options="siswa" class="mb-4"></v-select>
+              <label for="nomor_un">Siswa</label>
+              <v-select name="nomor_un" v-model="model.siswa" :options="siswa" placeholder="Siswa" required></v-select>
 
-            <field-messages name="nomor_un" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Nama Siswa is a required field</small>
-            </field-messages>
+              <field-messages name="nomor_un" show="$invalid && $submitted" class="text-danger">
+                <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">Siswa is a required field</small>
+              </field-messages>
             </validate>
           </div>
         </div>
 
-        <validate tag="div">
-          <div class="form-group">
-            <label for="model-akademik">Akademik</label>
-            <input type="text" class="form-control" id="model-akademik" v-model="model.akademik" name="akademik" placeholder="Akademik" required>
-            <field-messages name="akademik" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Akademik is a required field</small>
-            </field-messages>
-          </div>
-        </validate>
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+              <label for="bobot">Bobot</label>
+              <input type="text" class="form-control" name="bobot" v-model="model.bobot" placeholder="Bobot" required autofocus>
 
-        <validate tag="div">
-          <div class="form-group">
-            <label for="model-prestasi">Prestasi</label>
-            <input type="text" class="form-control" id="model-prestasi" v-model="model.prestasi" name="prestasi" placeholder="Prestasi" required>
-            <field-messages name="prestasi" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Prestasi is a required field</small>
-            </field-messages>
+              <field-messages name="bobot" show="$invalid && $submitted" class="text-danger">
+                <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">Label is a required field</small>
+              </field-messages>
+            </validate>
           </div>
-        </validate>
-
-        <validate tag="div">
-          <div class="form-group">
-            <label for="model-zona">Zona</label>
-            <input type="text" class="form-control" id="model-zona" v-model="model.zona" name="zona" placeholder="Zona" required>
-            <field-messages name="zona" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Zona is a required field</small>
-            </field-messages>
-          </div>
-        </validate>
-
-        <validate tag="div">
-          <div class="form-group">
-            <label for="model-sktm">Sktm</label>
-            <input type="text" class="form-control" id="model-sktm" v-model="model.sktm" name="sktm" placeholder="Sktm" required>
-            <field-messages name="sktm" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">Sktm is a required field</small>
-            </field-messages>
-          </div>
-        </validate>
+        </div>
 
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-            <label for="user_id">Username</label>
-            <v-select name="user_id" v-model="model.user" :options="user" class="mb-4"></v-select>
+              <label for="akademik">Akademik</label>
+              <input type="text" class="form-control" name="akademik" v-model="model.akademik" placeholder="Akademik" required>
 
-            <field-messages name="user_id" show="$invalid && $submitted" class="text-danger">
-              <small class="form-text text-success">Looks good!</small>
-              <small class="form-text text-danger" slot="required">username is a required field</small>
-            </field-messages>
+              <field-messages name="akademik" show="$invalid && $submitted" class="text-danger">
+                <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">Label is a required field</small>
+              </field-messages>
+            </validate>
+          </div>
+        </div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+              <label for="prestasi">Prestasi</label>
+              <input type="text" class="form-control" name="prestasi" v-model="model.prestasi" placeholder="Prestasi" required>
+
+              <field-messages name="prestasi" show="$invalid && $submitted" class="text-danger">
+                <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">Label is a required field</small>
+              </field-messages>
+            </validate>
+          </div>
+        </div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+              <label for="zona">Zona</label>
+              <input type="text" class="form-control" name="zona" v-model="model.zona" placeholder="Zona" required>
+
+              <field-messages name="zona" show="$invalid && $submitted" class="text-danger">
+                <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">Label is a required field</small>
+              </field-messages>
+            </validate>
+          </div>
+        </div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+              <label for="sktm">SKTM</label>
+              <input type="text" class="form-control" name="sktm" v-model="model.sktm" placeholder="SKTM" required>
+
+              <field-messages name="sktm" show="$invalid && $submitted" class="text-danger">
+                <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">Label is a required field</small>
+              </field-messages>
+            </validate>
+          </div>
+        </div>
+
+        <!-- <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+              <label for="total">Total</label>
+              <input type="text" class="form-control" name="total" v-model="model.total" placeholder="Total" required>
+
+              <field-messages name="total" show="$invalid && $submitted" class="text-danger">
+                <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">Label is a required field</small>
+              </field-messages>
+            </validate>
+          </div>
+        </div> -->
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+              <label for="user_id">Username</label>
+              <v-select name="user_id" v-model="model.user" :options="user" placeholder="Username" required></v-select>
+
+              <field-messages name="user_id" show="$invalid && $submitted" class="text-danger">
+                <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">User is a required field</small>
+              </field-messages>
             </validate>
           </div>
         </div>
@@ -92,7 +129,6 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <button type="submit" class="btn btn-primary">Submit</button>
-
             <button type="reset" class="btn btn-secondary" @click="reset">Reset</button>
           </div>
         </div>
@@ -103,46 +139,88 @@
 </template>
 
 <script>
-export default {
-  mounted(){
-    axios.get('api/nilai/create')
-    .then(response => {
-      if (response.data.status == true) {
-        this.model.user = response.data.current_user;
+import swal from 'sweetalert2';
 
-        response.data.siswa.forEach(element => {
-          this.siswa.push(element);
-        });
-        if(response.data.user_special == true){
-          response.data.user.forEach(user_element => {
-            this.user.push(user_element);
-          });
-        }else{
-          this.user.push(response.data.user);
-        }
-      } else {
-        alert('Failed');
-      }
-    })
-    .catch(function(response) {
-      alert('Break');
-      window.location.href = '#/admin/nilai';
-    });
-  },
+export default {
   data() {
     return {
       state: {},
+      title: 'Add Nilai',
       model: {
-        siswa: "",
-        user: "",
-        akademik: "",
-        prestasi: "",
-        zona: "",
-        sktm: ""
+        nomor_un    : '',
+        bobot       : '',
+        akademik    : '',
+        prestasi    : '',
+        zona        : '',
+        sktm        : '',
+        total       : '',
+        user_id     : '',
+        created_at  : '',
+        updated_at  : '',
+
+        siswa       : '',
+        user        : '',
       },
-      siswa: [],
-      user: []
+      siswa   : [],
+      user    : [],
     }
+  },
+  mounted(){
+    let app = this;
+
+    axios.get('api/nilai/create')
+      .then(response => {
+        if (response.data.status == true && response.data.error == false) {
+          this.model.user = response.data.current_user;
+
+          if(response.data.user_special == true){
+            this.user = response.data.users;
+          }else{
+            this.user.push(response.data.users);
+          }
+        } else {
+          swal(
+            'Failed',
+            'Oops... '+response.data.message,
+            'error'
+          );
+
+          app.back();
+        }
+      })
+      .catch(function(response) {
+        swal(
+          'Not Found',
+          'Oops... Your page is not found.',
+          'error'
+        );
+
+        app.back();
+      });
+
+    axios.get('api/siswa/get')
+      .then(response => {
+        if (response.data.status == true && response.data.error == false) {
+          this.siswa = response.data.siswas;
+        } else {
+          swal(
+            'Failed',
+            'Oops... '+response.data.message,
+            'error'
+          );
+
+          app.back();
+        }
+      })
+      .catch(function(response) {
+        swal(
+          'Not Found',
+          'Oops... Your page is not found.',
+          'error'
+        );
+
+        app.back();
+      });
   },
   methods: {
     onSubmit: function() {
@@ -152,38 +230,68 @@ export default {
         return;
       } else {
         axios.post('api/nilai', {
-            nomor_un: this.model.siswa.id,
-            user_id: this.model.user.id,
-            akademik: this.model.akademik,
-            prestasi: this.model.prestasi,
-            zona: this.model.zona,
-            sktm: this.model.sktm
-
+            nomor_un  : this.model.siswa.nomor_un ,
+            bobot     : this.model.bobot,
+            akademik  : this.model.akademik,
+            prestasi  : this.model.prestasi,
+            zona      : this.model.zona,
+            sktm      : this.model.sktm,
+            total     : this.model.total,
+            user_id   : this.model.user.id,
           })
           .then(response => {
             if (response.data.status == true) {
-              if(response.data.message == 'success'){
-                alert(response.data.message);
+              if(response.data.error == false){
+                swal(
+                  'Created',
+                  'Yeah!!! Your data has been created.',
+                  'success'
+                );
+
                 app.back();
               }else{
-                alert(response.data.message);
+                swal(
+                  'Failed',
+                  'Oops... '+response.data.message,
+                  'error'
+                );
               }
             } else {
-              alert(response.data.message);
+              swal(
+                'Failed',
+                'Oops... '+response.data.message,
+                'error'
+              );
+
+              app.back();
             }
           })
           .catch(function(response) {
-            alert('Break ' + response.data.message);
+            swal(
+              'Not Found',
+              'Oops... Your page is not found.',
+              'error'
+            );
+
+            app.back();
           });
       }
     },
     reset() {
       this.model = {
-        akademik: "",
-        prestasi: "",
-        zona: "",
-        sktm: ""
+        nomor_un    : '',
+        bobot       : '',
+        akademik    : '',
+        prestasi    : '',
+        zona        : '',
+        sktm        : '',
+        total       : '',
+        user_id     : '',
+        created_at  : '',
+        updated_at  : '',
 
+        siswa       : '',
+        user        : '',
       };
     },
     back() {

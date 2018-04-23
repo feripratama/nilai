@@ -20,6 +20,7 @@ class CreateNilaisTable extends Migration
 			$table->decimal('prestasi')->nullable();
 			$table->decimal('zona')->nullable();
 			$table->decimal('sktm')->nullable();
+			$table->decimal('total')->nullable();
 			$table->integer('user_id');
 			$table->timestamps();
 			$table->softDeletes();

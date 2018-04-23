@@ -22,16 +22,32 @@ class Nilai extends Model
         'prestasi',
         'zona',
         'sktm',
+        'total',
         'user_id',
     ];
 
+    public function setTotalAttribute($value)
+    {
+        $nilai[]    = $this->akademik;
+        $nilai[]    = $this->prestasi;
+        $nilai[]    = $this->zona;
+        $nilai[]    = $this->sktm;
+
+        $this->attributes['total'] = array_sum($nilai);
+    }
+
     public function siswa()
     {
-        return $this->belongsTo('Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa','nomor_un');
+        return $this->belongsTo('Bantenprov\Siswa\Models\Bantenprov\Siswa\Siswa','nomor_un','nomor_un');
     }
 
     public function user()
     {
         return $this->belongsTo('App\User','user_id');
+    }
+
+    public function nilaiAkademik()
+    {
+        return $this->belongsTo('Bantenprov\Nilai\Models\Bantenprov\Nilai\Akademik','nomor_un','nomor_un');
     }
 }
