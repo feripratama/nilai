@@ -73,6 +73,31 @@ class NilaiController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function get()
+    {
+        $nilais = $this->nilai->with(['siswa', 'user'])->get();
+
+        foreach ($nilais as $nilai) {
+            if ($nilai->siswa !== null) {
+                array_set($nilai, 'label', $nilai->siswa->nomor_un.' - '.$nilai->siswa->nama_siswa);
+            } else {
+                array_set($nilai, 'label', $nilai->nomor_un.' - ');
+            }
+        }
+
+        $response['nilais']     = $nilais;
+        $response['error']      = false;
+        $response['message']    = 'Success';
+        $response['status']     = true;
+
+        return response()->json($response);
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
