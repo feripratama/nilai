@@ -19,7 +19,7 @@ class CreateAkademiksTable extends Migration
 			$table->integer('bahasa_inggris');
 			$table->integer('matematika');
 			$table->integer('ipa');
-			$table->integer('user_id');
+			$table->integer('user_id')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
 		});
