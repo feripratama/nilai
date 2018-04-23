@@ -202,7 +202,7 @@ class AkademikController extends Controller
      */
     public function show($id)
     {
-        $akademik   = $this->akademik->with(['siswa', 'user'])->findOrFail($id);
+        $akademik = $this->akademik->with(['siswa', 'user'])->findOrFail($id);
 
         $response['akademik']   = $akademik;
         $response['error']      = false;
