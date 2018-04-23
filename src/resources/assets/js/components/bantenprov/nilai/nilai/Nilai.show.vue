@@ -1,167 +1,130 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-table" aria-hidden="true"></i> Nilai
+      <i class="fa fa-table" aria-hidden="true"></i> {{ title }}
 
-      <ul class="nav nav-pills card-header-pills pull-right">
-        <li class="nav-item">
-          <button class="btn btn-primary btn-sm" role="button" @click="back">
-            <i class="fa fa-arrow-left" aria-hidden="true"></i>
-          </button>
-        </li>
-      </ul>
+      <div class="btn-group pull-right" role="group" style="display:flex;">
+        <button class="btn btn-warning btn-sm" role="button" @click="edit">
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+        </button>
+        <button class="btn btn-primary btn-sm" role="button" @click="back">
+          <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        </button>
+      </div>
     </div>
 
     <div class="card-body">
-      <vue-form class="form-horizontal form-validation" :state="state" @submit.prevent="onSubmit">
+      <dl class="row">
+          <dt class="col-4">Nomor UN</dt>
+          <dd class="col-8">{{ model.nomor_un }}</dd>
 
-        <div class="form-row">
-          <div class="col-md">
-            <b>Nama Siswa :</b> {{ model.siswa.nama_siswa }}
-          </div>
-        </div>
+          <dt class="col-4">Nama Siswa</dt>
+          <dd class="col-8">{{ model.siswa.nama_siswa }}</dd>
 
-         <div class="form-row mt-4">
-          <div class="col-md">
-            <b>Akademik :</b> {{ model.akademik }}
-          </div>
-        </div>
+          <dt class="col-4">B. Indonesia</dt>
+          <dd class="col-8">{{ model.bobot }}</dd>
 
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <b>Prestasi :</b> {{ model.prestasi }}
-          </div>
-        </div>
+          <dt class="col-4">B. Inggris</dt>
+          <dd class="col-8">{{ model.akademik }}</dd>
 
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <b>Zona :</b> {{ model.zona }}
-          </div>
-        </div>
+          <dt class="col-4">Matematika</dt>
+          <dd class="col-8">{{ model.prestasi }}</dd>
 
-        <div class="form-row mt-4">
-          <div class="col-md">
-            <b>Aktm :</b> {{ model.sktm }}
-          </div>
-        </div>
+          <dt class="col-4">Zona</dt>
+          <dd class="col-8">{{ model.zona }}</dd>
 
-      </vue-form>
+          <dt class="col-4">SKTM</dt>
+          <dd class="col-8">{{ model.sktm }}</dd>
+      </dl>
     </div>
-       <div class="card-footer text-muted">
-        <div class="row">
-          <div class="col-md">
-            <b>Username :</b> {{ model.user.name }}
-          </div>
-          <div class="col-md">
-            <div class="col-md text-right">Dibuat : {{ model.created_at }}</div>
-            <div class="col-md text-right">Diperbaiki : {{ model.updated_at }}</div>
-          </div>
+
+    <div class="card-footer text-muted">
+      <div class="row">
+        <div class="col-md">
+          <b>Username :</b> {{ model.user.name }}
+        </div>
+        <div class="col-md">
+          <div class="col-md text-right">Dibuat : {{ model.created_at }}</div>
+          <div class="col-md text-right">Diperbarui : {{ model.updated_at }}</div>
         </div>
       </div>
+    </div>
   </div>
 </template>
 
 <script>
-export default {
-  mounted() {
-    axios.get('api/nilai/' + this.$route.params.id)
-      .then(response => {
-        if (response.data.status == true) {
-          this.model.siswa = response.data.siswa;
-          this.model.user = response.data.user;
-          this.model.akademik = response.data.nilai.akademik;
-          this.model.prestasi = response.data.nilai.prestasi;
-          this.model.zona = response.data.nilai.zona;
-          this.model.sktm = response.data.nilai.sktm;
-          this.model.created_at = response.data.nilai.created_at;
-          this.model.updated_at = response.data.nilai.updated_at;
-        } else {
-          alert('Failed');
-        }
-      })
-      .catch(function(response) {
-        alert('Break');
-        window.location.href = '#/admin/nilai';
-      }),
+import swal from 'sweetalert2';
 
-      axios.get('api/nilai/create')
-      .then(response => {
-          response.data.siswa.forEach(element => {
-            this.siswa.push(element);
-          });
-          if(response.data.user_special == true){
-            response.data.user.forEach(user_element => {
-              this.user.push(user_element);
-            });
-          }else{
-            this.user.push(response.data.user);
-          }
-      })
-      .catch(function(response) {
-        alert('Break');
-        window.location.href = '#/admin/nilai';
-      })
-  },
+export default {
   data() {
     return {
       state: {},
+      title: 'View Nilai',
       model: {
-        siswa: "",
-        user: "",
-        akademik: "",
-        prestasi: "",
-        zona: "",
-        sktm: "",
-        created_at: "",
-        updated_at: ""
+        nomor_un    : '',
+        bobot       : '',
+        akademik    : '',
+        prestasi    : '',
+        zona        : '',
+        sktm        : '',
+        user_id     : '',
+        created_at  : '',
+        updated_at  : '',
+
+        siswa       : [],
+        user        : [],
       },
-      siswa: [],
-      user: []
     }
   },
-  methods: {
-    onSubmit: function() {
-      let app = this;
+  mounted() {
+    let app = this;
 
-      if (this.state.$invalid) {
-        return;
-      } else {
-        axios.put('api/nilai/' + this.$route.params.id, {
-            label: this.model.label,
-            description: this.model.description,
-            old_label: this.model.old_label,
-            nomor_un: this.model.siswa.id
-          })
-          .then(response => {
-            if (response.data.status == true) {
-              if(response.data.message == 'success'){
-                alert(response.data.message);
-                app.back();
-              }else{
-                alert(response.data.message);
-              }
-            } else {
-              alert(response.data.message);
-            }
-          })
-          .catch(function(response) {
-            alert('Break ' + response.data.message);
-          });
-      }
-    },
-    reset() {
-      axios.get('api/nilai/' + this.$route.params.id + '/edit')
-        .then(response => {
-          if (response.data.status == true) {
-            this.model.label = response.data.nilai.label;
-            this.model.description = response.data.nilai.description;
-          } else {
-            alert('Failed');
+    axios.get('api/nilai/'+this.$route.params.id)
+      .then(response => {
+        if (response.data.status == true && response.data.error == false) {
+          this.model.nomor_un   = response.data.nilai.nomor_un;
+          this.model.bobot      = response.data.nilai.bobot;
+          this.model.akademik   = response.data.nilai.akademik;
+          this.model.prestasi   = response.data.nilai.prestasi;
+          this.model.zona       = response.data.nilai.zona;
+          this.model.sktm       = response.data.nilai.sktm;
+          this.model.user_id    = response.data.nilai.user_id;
+          this.model.created_at = response.data.nilai.created_at;
+          this.model.updated_at = response.data.nilai.updated_at;
+
+          this.model.siswa      = response.data.nilai.siswa;
+          this.model.user       = response.data.nilai.user;
+
+          if (this.model.siswa === null) {
+            this.model.siswa = {'id':this.model.nomor_un, 'nama_siswa':''};
           }
-        })
-        .catch(function(response) {
-          alert('Break ');
-        });
+
+          if (this.model.user === null) {
+            this.model.user = {'id':this.model.user_id, 'name':''};
+          }
+        } else {
+          swal(
+            'Failed',
+            'Oops... '+response.data.message,
+            'error'
+          );
+
+          app.back();
+        }
+      })
+      .catch(function(response) {
+        swal(
+          'Not Found',
+          'Oops... Your page is not found.',
+          'error'
+        );
+
+        app.back();
+      });
+  },
+  methods: {
+    edit() {
+      window.location = '#/admin/nilai/'+this.$route.params.id+'/edit';
     },
     back() {
       window.location = '#/admin/nilai';

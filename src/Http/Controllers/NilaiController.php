@@ -198,9 +198,9 @@ class NilaiController extends Controller
      */
     public function show($id)
     {
-        $akademik   = $this->akademik->with(['siswa', 'user'])->findOrFail($id);
+        $nilai = $this->nilai->with(['siswa', 'user'])->findOrFail($id);
 
-        $response['akademik']   = $akademik;
+        $response['nilai']      = $nilai;
         $response['error']      = false;
         $response['message']    = 'Success';
         $response['status']     = true;
