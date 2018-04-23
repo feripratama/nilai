@@ -21,7 +21,7 @@ class CreateNilaisTable extends Migration
 			$table->decimal('zona')->nullable();
 			$table->decimal('sktm')->nullable();
 			$table->decimal('total')->nullable();
-			$table->integer('user_id');
+			$table->integer('user_id')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
 		});
