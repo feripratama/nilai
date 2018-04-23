@@ -59,7 +59,7 @@ export default {
           bottom: 30,
           x: 'center',
           min: 100,
-          max: 600,
+          max: 700,
           text: ['High', 'Low'],
           calculable : false,
           inRange: {
@@ -104,7 +104,7 @@ export default {
     }
   },
   mounted: function () {
-    axios.get('/json/bantenprov/nilai/nilai-pie-010.json').then(response => {
+    axios.get('/json/bantenprov/nilai/nilai/nilai-pie-020.json').then(response => {
 
       let ke = 0;
 

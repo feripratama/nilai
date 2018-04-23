@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%; height: 200px;">
+  <div style="width: 100%; height: 400px;">
     <IEcharts :option="bar" :loading="loading" :resizable="true"></IEcharts>
   </div>
 </template>
@@ -78,7 +78,7 @@ export default {
             show: false
           },
           splitLine: {
-            show: false,
+            show: true,
             lineStyle: {
               width: 1,
               type: 'solid',
@@ -87,7 +87,7 @@ export default {
           }
         },
         yAxis: {
-          show: false,
+          show: true,
           axisLabel: {
             show: true,
             fontSize: 10,
@@ -107,7 +107,7 @@ export default {
             show: true
           },
           splitArea: {
-            show: false
+            show: true
           },
           splitLine: {
             show: false,
@@ -120,12 +120,21 @@ export default {
         },
         series: [{
           type: 'bar',
-          data: [],
-          barWidth: 20,
+          data: [
+            {value:0, name:''},
+            {value:0, name:''},
+            {value:0, name:''},
+            {value:0, name:''},
+            {value:0, name:''},
+            {value:0, name:''},
+            {value:0, name:''},
+            {value:0, name:''}
+          ],
+          barWidth: 30,
           barGap: '30%',
           cursor: 'default',
           itemStyle: {
-            color: '#CDDC39'
+            color: '#3F51B5'
           }
         }],
         label: {
@@ -140,7 +149,7 @@ export default {
     }
   },
   mounted: function () {
-    axios.get('/json/bantenprov/nilai/nilai-030.json').then(response => {
+    axios.get('/json/bantenprov/nilai/nilai/nilai-020.json').then(response => {
 
       let ke = 0;
 
