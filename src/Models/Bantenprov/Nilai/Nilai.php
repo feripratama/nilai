@@ -17,6 +17,7 @@ class Nilai extends Model
     ];
     protected $fillable = [
         'nomor_un',
+        'kegiatan_id',
         'bobot',
         'akademik',
         'prestasi',
@@ -49,5 +50,10 @@ class Nilai extends Model
     public function nilai_akademik()
     {
         return $this->belongsTo('Bantenprov\Nilai\Models\Bantenprov\Nilai\Akademik','nomor_un','nomor_un');
+    }
+
+    public function kegiatan()
+    {
+        return $this->belongsTo('Bantenprov\Kegiatan\Models\Bantenprov\Kegiatan','kegiatan_id');
     }
 }
