@@ -31,12 +31,12 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <label for="bahasa_indonesia">B. Indonesia</label>
-              <input type="text" class="form-control" name="bahasa_indonesia" v-model="model.bahasa_indonesia" placeholder="B. Indonesia" required autofocus>
+              <label for="bobot">Bobot</label>
+              <input type="text" class="form-control" name="bobot" v-model="model.bobot" placeholder="Bobot" required autofocus>
 
-              <field-messages name="bahasa_indonesia" show="$invalid && $submitted" class="text-danger">
+              <field-messages name="bobot" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">B. Indonesia is a required field</small>
+                <small class="form-text text-danger" slot="required">Bobot is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -45,12 +45,12 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <label for="bahasa_inggris">B. Inggris</label>
-              <input type="text" class="form-control" name="bahasa_inggris" v-model="model.bahasa_inggris" placeholder="B. Inggris" required>
+              <label for="akademik">Akademik</label>
+              <input type="text" class="form-control" name="akademik" v-model="model.akademik" placeholder="Akademik" required>
 
-              <field-messages name="bahasa_inggris" show="$invalid && $submitted" class="text-danger">
+              <field-messages name="akademik" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">B. Inggris is a required field</small>
+                <small class="form-text text-danger" slot="required">Akademik is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -59,12 +59,12 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <label for="matematika">Matematika</label>
-              <input type="text" class="form-control" name="matematika" v-model="model.matematika" placeholder="Matematika" required>
+              <label for="prestasi">Prestasi</label>
+              <input type="text" class="form-control" name="prestasi" v-model="model.prestasi" placeholder="Prestasi" required>
 
-              <field-messages name="matematika" show="$invalid && $submitted" class="text-danger">
+              <field-messages name="prestasi" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">Matematika is a required field</small>
+                <small class="form-text text-danger" slot="required">Prestasi is a required field</small>
               </field-messages>
             </validate>
           </div>
@@ -73,16 +73,44 @@
         <div class="form-row mt-4">
           <div class="col-md">
             <validate tag="div">
-              <label for="ipa">IPA</label>
-              <input type="text" class="form-control" name="ipa" v-model="model.ipa" placeholder="IPA" required>
+              <label for="zona">Zona</label>
+              <input type="text" class="form-control" name="zona" v-model="model.zona" placeholder="Zona" required>
 
-              <field-messages name="ipa" show="$invalid && $submitted" class="text-danger">
+              <field-messages name="zona" show="$invalid && $submitted" class="text-danger">
                 <small class="form-text text-success">Looks good!</small>
-                <small class="form-text text-danger" slot="required">IPA is a required field</small>
+                <small class="form-text text-danger" slot="required">Zona is a required field</small>
               </field-messages>
             </validate>
           </div>
         </div>
+
+        <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+              <label for="sktm">SKTM</label>
+              <input type="text" class="form-control" name="sktm" v-model="model.sktm" placeholder="SKTM" required>
+
+              <field-messages name="sktm" show="$invalid && $submitted" class="text-danger">
+                <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">SKTM is a required field</small>
+              </field-messages>
+            </validate>
+          </div>
+        </div>
+
+        <!-- <div class="form-row mt-4">
+          <div class="col-md">
+            <validate tag="div">
+              <label for="total">Total</label>
+              <input type="text" class="form-control" name="total" v-model="model.total" placeholder="Total" required>
+
+              <field-messages name="total" show="$invalid && $submitted" class="text-danger">
+                <small class="form-text text-success">Looks good!</small>
+                <small class="form-text text-danger" slot="required">Total is a required field</small>
+              </field-messages>
+            </validate>
+          </div>
+        </div> -->
 
         <div class="form-row mt-4">
           <div class="col-md">
@@ -117,19 +145,21 @@ export default {
   data() {
     return {
       state: {},
-      title: 'Add Akademik',
+      title: 'Add Nilai',
       model: {
-        nomor_un          : '',
-        bahasa_indonesia  : '',
-        bahasa_inggris    : '',
-        matematika        : '',
-        ipa               : '',
-        user_id           : '',
-        created_at        : '',
-        updated_at        : '',
+        nomor_un    : '',
+        bobot       : '',
+        akademik    : '',
+        prestasi    : '',
+        zona        : '',
+        sktm        : '',
+        total       : '',
+        user_id     : '',
+        created_at  : '',
+        updated_at  : '',
 
-        siswa             : '',
-        user              : '',
+        siswa       : '',
+        user        : '',
       },
       siswa   : [],
       user    : [],
@@ -138,7 +168,7 @@ export default {
   mounted(){
     let app = this;
 
-    axios.get('api/akademik/create')
+    axios.get('api/nilai/create')
       .then(response => {
         if (response.data.status == true && response.data.error == false) {
           this.model.user = response.data.current_user;
@@ -199,13 +229,15 @@ export default {
       if (this.state.$invalid) {
         return;
       } else {
-        axios.post('api/akademik', {
-            nomor_un          : this.model.siswa.nomor_un ,
-            bahasa_indonesia  : this.model.bahasa_indonesia,
-            bahasa_inggris    : this.model.bahasa_inggris,
-            matematika        : this.model.matematika,
-            ipa               : this.model.ipa,
-            user_id           : this.model.user.id,
+        axios.post('api/nilai', {
+            nomor_un  : this.model.siswa.nomor_un ,
+            bobot     : this.model.bobot,
+            akademik  : this.model.akademik,
+            prestasi  : this.model.prestasi,
+            zona      : this.model.zona,
+            sktm      : this.model.sktm,
+            total     : this.model.total,
+            user_id   : this.model.user.id,
           })
           .then(response => {
             if (response.data.status == true) {
@@ -247,21 +279,23 @@ export default {
     },
     reset() {
       this.model = {
-        nomor_un          : '',
-        bahasa_indonesia  : '',
-        bahasa_inggris    : '',
-        matematika        : '',
-        ipa               : '',
-        user_id           : '',
-        created_at        : '',
-        updated_at        : '',
+        nomor_un    : '',
+        bobot       : '',
+        akademik    : '',
+        prestasi    : '',
+        zona        : '',
+        sktm        : '',
+        total       : '',
+        user_id     : '',
+        created_at  : '',
+        updated_at  : '',
 
-        siswa             : '',
-        user              : '',
+        siswa       : '',
+        user        : '',
       };
     },
     back() {
-      window.location = '#/admin/akademik';
+      window.location = '#/admin/nilai';
     }
   }
 }

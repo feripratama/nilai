@@ -74,7 +74,7 @@ class NilaiServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function configHandle($publish='')
+    protected function configHandle($publish = '')
     {
         $packageConfigPath = __DIR__.'/config';
         $appConfigPath     = config_path('bantenprov/nilai');
@@ -103,7 +103,7 @@ class NilaiServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function langHandle($publish='')
+    protected function langHandle($publish = '')
     {
         $packageTranslationsPath = __DIR__.'/resources/lang';
 
@@ -119,7 +119,7 @@ class NilaiServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function viewHandle($publish='')
+    protected function viewHandle($publish = '')
     {
         $packageViewsPath = __DIR__.'/resources/views';
 
@@ -135,7 +135,7 @@ class NilaiServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function assetHandle($publish='')
+    protected function assetHandle($publish = '')
     {
         $packageAssetsPath = __DIR__.'/resources/assets';
 
@@ -149,7 +149,7 @@ class NilaiServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function migrationHandle($publish='')
+    protected function migrationHandle($publish = '')
     {
         $packageMigrationsPath = __DIR__.'/database/migrations';
 
@@ -160,7 +160,12 @@ class NilaiServiceProvider extends ServiceProvider
         ], $publish ? $publish : 'nilai-migrations');
     }
 
-    public function publicHandle($publish='')
+    /**
+     * Publishing package's publics (JavaScript, CSS, images...)
+     *
+     * @return void
+     */
+    public function publicHandle($publish = '')
     {
         $packagePublicPath = __DIR__.'/public';
 
@@ -169,7 +174,12 @@ class NilaiServiceProvider extends ServiceProvider
         ], $publish ? $publish : 'nilai-public');
     }
 
-    public function seedHandle($publish='')
+    /**
+     * Publishing package's seeds
+     *
+     * @return void
+     */
+    public function seedHandle($publish = '')
     {
         $packageSeedPath = __DIR__.'/database/seeds';
 
@@ -178,15 +188,22 @@ class NilaiServiceProvider extends ServiceProvider
         ], $publish ? $publish : 'nilai-seeds');
     }
 
+    /**
+     * Publishing package's all files
+     *
+     * @return void
+     */
     public function publishHandle()
     {
-        $this->routeHandle('nilai-publish');
-        $this->configHandle('nilai-publish');
-        $this->langHandle('nilai-publish');
-        $this->viewHandle('nilai-publish');
-        $this->assetHandle('nilai-publish');
-        $this->migrationHandle('nilai-publish');
-        $this->publicHandle('nilai-publish');
-        $this->seedHandle('nilai-publish');
+        $publish = 'nilai-publish';
+
+        $this->routeHandle($publish);
+        $this->configHandle($publish);
+        $this->langHandle($publish);
+        $this->viewHandle($publish);
+        $this->assetHandle($publish);
+        // $this->migrationHandle($publish);
+        $this->publicHandle($publish);
+        $this->seedHandle($publish);
     }
 }

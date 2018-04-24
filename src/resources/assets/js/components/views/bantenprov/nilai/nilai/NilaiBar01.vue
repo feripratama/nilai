@@ -75,7 +75,7 @@ export default {
             show: true
           },
           splitArea: {
-            show: false
+            show: true
           },
           splitLine: {
             show: true,
@@ -110,7 +110,7 @@ export default {
             show: true
           },
           splitLine: {
-            show: false,
+            show: true,
             lineStyle: {
               width: 1,
               type: 'solid',
@@ -120,21 +120,12 @@ export default {
         },
         series: [{
           type: 'bar',
-          data: [
-            {value:0, name:''},
-            {value:0, name:''},
-            {value:0, name:''},
-            {value:0, name:''},
-            {value:0, name:''},
-            {value:0, name:''},
-            {value:0, name:''},
-            {value:0, name:''}
-          ],
+          data: [],
           barWidth: 30,
           barGap: '30%',
           cursor: 'default',
           itemStyle: {
-            color: '#3F51B5'
+            color: '#FFEB3B'
           }
         }],
         label: {
@@ -149,7 +140,7 @@ export default {
     }
   },
   mounted: function () {
-    axios.get('/json/bantenprov/nilai/nilai-020.json').then(response => {
+    axios.get('/json/bantenprov/nilai/nilai/nilai-010.json').then(response => {
 
       let ke = 0;
 
