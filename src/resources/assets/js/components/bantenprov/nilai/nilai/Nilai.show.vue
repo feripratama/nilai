@@ -112,7 +112,7 @@ export default {
 
           this.model.siswa          = response.data.nilai.siswa;
           this.model.user           = response.data.nilai.user;
-          this.model.nilai_akademik  = response.data.nilai.nilai_akademik;
+          this.model.nilai_akademik = response.data.nilai.nilai_akademik;
 
           if (this.model.siswa === null) {
             this.model.siswa = {'id':this.model.nomor_un, 'nama_siswa':''};

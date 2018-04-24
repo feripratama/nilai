@@ -181,7 +181,7 @@ export default {
           this.model.total    = response.data.nilai.total;
           this.model.user_id  = response.data.nilai.user_id;
 
-          this.model.siswa = response.data.nilai.siswa;
+          this.model.siswa    = response.data.nilai.siswa;
 
           if (response.data.nilai.user === null) {
             this.model.user = response.data.current_user;
