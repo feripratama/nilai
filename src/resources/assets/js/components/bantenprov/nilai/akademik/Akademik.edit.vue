@@ -149,7 +149,7 @@ export default {
           this.model.ipa              = response.data.akademik.ipa;
           this.model.user_id          = response.data.akademik.user_id;
 
-          this.model.siswa = response.data.akademik.siswa;
+          this.model.siswa            = response.data.akademik.siswa;
 
           if (response.data.akademik.user === null) {
             this.model.user = response.data.current_user;

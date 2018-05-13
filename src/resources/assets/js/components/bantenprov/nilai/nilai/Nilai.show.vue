@@ -76,20 +76,20 @@ export default {
       state: {},
       title: 'View Nilai',
       model: {
-        nomor_un      : '',
-        bobot         : '',
-        akademik      : '',
-        prestasi      : '',
-        zona          : '',
-        sktm          : '',
-        total         : '',
-        user_id       : '',
-        created_at    : '',
-        updated_at    : '',
+        nomor_un        : '',
+        bobot           : '',
+        akademik        : '',
+        prestasi        : '',
+        zona            : '',
+        sktm            : '',
+        total           : '',
+        user_id         : '',
+        created_at      : '',
+        updated_at      : '',
 
-        siswa         : [],
-        user          : [],
-        nilai_akademik : [],
+        siswa           : [],
+        user            : [],
+        nilai_akademik  : [],
       },
     }
   },
@@ -112,7 +112,7 @@ export default {
 
           this.model.siswa          = response.data.nilai.siswa;
           this.model.user           = response.data.nilai.user;
-          this.model.nilai_akademik  = response.data.nilai.nilai_akademik;
+          this.model.nilai_akademik = response.data.nilai.nilai_akademik;
 
           if (this.model.siswa === null) {
             this.model.siswa = {'id':this.model.nomor_un, 'nama_siswa':''};
