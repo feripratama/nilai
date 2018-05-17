@@ -15,10 +15,10 @@ class CreateAkademiksTable extends Migration
 		Schema::create('akademiks', function(Blueprint $table) {
 			$table->increments('id');
 			$table->string('nomor_un');
-			$table->integer('bahasa_indonesia');
-			$table->integer('bahasa_inggris');
-			$table->integer('matematika');
-			$table->integer('ipa');
+			$table->decimal('bahasa_indonesia');
+			$table->decimal('bahasa_inggris');
+			$table->decimal('matematika');
+			$table->decimal('ipa');
 			$table->integer('user_id')->nullable();
 			$table->timestamps();
 			$table->softDeletes();
